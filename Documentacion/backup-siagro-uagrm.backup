@@ -1,0 +1,2579 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.5
+-- Dumped by pg_dump version 9.5.4
+
+-- Started on 2017-04-24 14:52:28
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 230 (class 1259 OID 31720)
+-- Name: accion; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE accion (
+    pkaccion integer DEFAULT nextval(('"accion_pkaccion_seq"'::text)::regclass) NOT NULL,
+    codigo character varying(10),
+    descripcion character varying(25),
+    estado character(1)
+);
+
+
+ALTER TABLE accion OWNER TO grupo06;
+
+--
+-- TOC entry 235 (class 1259 OID 31773)
+-- Name: accion_pkaccion_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE accion_pkaccion_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE accion_pkaccion_seq OWNER TO grupo06;
+
+--
+-- TOC entry 191 (class 1259 OID 25083)
+-- Name: acciones; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE acciones (
+    mod_cod integer NOT NULL,
+    acc_cod numeric NOT NULL,
+    acc_descrip character(60),
+    acc_parametros character(40),
+    acc_est integer
+);
+
+
+ALTER TABLE acciones OWNER TO grupo06;
+
+--
+-- TOC entry 184 (class 1259 OID 25022)
+-- Name: administrador; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE administrador (
+    adm_login character(15) NOT NULL,
+    adm_password character(15) NOT NULL,
+    adm_padre character(15) NOT NULL,
+    adm_fech_i date NOT NULL,
+    adm_fech_f date NOT NULL,
+    grup_cod integer NOT NULL,
+    adm_est integer,
+    usr_cod character(15) NOT NULL
+);
+
+
+ALTER TABLE administrador OWNER TO grupo06;
+
+--
+-- TOC entry 182 (class 1259 OID 23868)
+-- Name: amigo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE amigo (
+    amig_ci integer NOT NULL,
+    amig_nombre character(150) NOT NULL,
+    amig_appm character(150) NOT NULL,
+    amig_telf character(17) NOT NULL,
+    amig_cel character(150) NOT NULL,
+    amig_dir character(150) NOT NULL,
+    amig_fnac character(150) NOT NULL
+);
+
+
+ALTER TABLE amigo OWNER TO grupo06;
+
+--
+-- TOC entry 231 (class 1259 OID 31724)
+-- Name: grupo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE grupo (
+    pkgrupo integer DEFAULT nextval(('"grupo_pkgrupo_seq"'::text)::regclass) NOT NULL,
+    descripcion character varying(50),
+    estado character(1) NOT NULL
+);
+
+
+ALTER TABLE grupo OWNER TO grupo06;
+
+--
+-- TOC entry 236 (class 1259 OID 31775)
+-- Name: grupo_pkgrupo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE grupo_pkgrupo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE grupo_pkgrupo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 186 (class 1259 OID 25029)
+-- Name: grupos; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE grupos (
+    grup_cod integer NOT NULL,
+    grup_descrip character(20) NOT NULL,
+    grup_observ character(50) NOT NULL,
+    grup_est integer,
+    adm_login character(15)
+);
+
+
+ALTER TABLE grupos OWNER TO grupo06;
+
+--
+-- TOC entry 185 (class 1259 OID 25027)
+-- Name: grupos_grup_cod_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE grupos_grup_cod_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE grupos_grup_cod_seq OWNER TO grupo06;
+
+--
+-- TOC entry 3454 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: grupos_grup_cod_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: grupo06
+--
+
+ALTER SEQUENCE grupos_grup_cod_seq OWNED BY grupos.grup_cod;
+
+
+--
+-- TOC entry 190 (class 1259 OID 25068)
+-- Name: mod_grup; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE mod_grup (
+    grup_cod integer NOT NULL,
+    mod_cod integer NOT NULL,
+    mod_grup_fech_install date NOT NULL
+);
+
+
+ALTER TABLE mod_grup OWNER TO grupo06;
+
+--
+-- TOC entry 232 (class 1259 OID 31728)
+-- Name: modulo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE modulo (
+    pkmodulo integer DEFAULT nextval(('"modulo_pkmodulo_seq"'::text)::regclass) NOT NULL,
+    descripcion character varying(25),
+    nombrefile character varying(50),
+    idmenu character varying(25),
+    estado character(1)
+);
+
+
+ALTER TABLE modulo OWNER TO grupo06;
+
+--
+-- TOC entry 237 (class 1259 OID 31777)
+-- Name: modulo_pkmodulo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE modulo_pkmodulo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE modulo_pkmodulo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 233 (class 1259 OID 31732)
+-- Name: modulogrupo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE modulogrupo (
+    fkgrupo integer NOT NULL,
+    fkmodulo integer NOT NULL,
+    fkaccion integer NOT NULL,
+    fechainstall date
+);
+
+
+ALTER TABLE modulogrupo OWNER TO grupo06;
+
+--
+-- TOC entry 189 (class 1259 OID 25057)
+-- Name: modulos; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE modulos (
+    mod_cod integer NOT NULL,
+    mod_descrip character(40) NOT NULL,
+    mod_observ character(40) NOT NULL,
+    mod_file character(60) NOT NULL,
+    mod_nivel integer NOT NULL,
+    mod_est integer,
+    adm_login character(15)
+);
+
+
+ALTER TABLE modulos OWNER TO grupo06;
+
+--
+-- TOC entry 188 (class 1259 OID 25055)
+-- Name: modulos_mod_cod_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE modulos_mod_cod_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE modulos_mod_cod_seq OWNER TO grupo06;
+
+--
+-- TOC entry 3455 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: modulos_mod_cod_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: grupo06
+--
+
+ALTER SEQUENCE modulos_mod_cod_seq OWNED BY modulos.mod_cod;
+
+
+--
+-- TOC entry 187 (class 1259 OID 25040)
+-- Name: persona; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE persona (
+    usr_cod character(15) NOT NULL,
+    usr_password character(15) NOT NULL,
+    usr_nom character(35) NOT NULL,
+    usr_app character(25) NOT NULL,
+    usr_apm character(25),
+    usr_telf character(18),
+    usr_email character(60),
+    usr_dir character(60),
+    usr_fecha_nac date NOT NULL,
+    usr_lugar_nac character(60) NOT NULL,
+    usr_ci character(15) NOT NULL,
+    usr_prof character(20) NOT NULL,
+    usr_fech_i date NOT NULL,
+    usr_fech_f date NOT NULL,
+    usr_est integer,
+    grup_cod integer,
+    adm_login character(15)
+);
+
+
+ALTER TABLE persona OWNER TO grupo06;
+
+--
+-- TOC entry 183 (class 1259 OID 23876)
+-- Name: propietario; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE propietario (
+    prop_user character(150) NOT NULL,
+    prop_passwd character(150) NOT NULL,
+    amig_ci integer
+);
+
+
+ALTER TABLE propietario OWNER TO grupo06;
+
+--
+-- TOC entry 192 (class 1259 OID 27809)
+-- Name: spactividad; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spactividad (
+    pkactividad integer DEFAULT nextval(('"spactividad_pkactividad_seq"'::text)::regclass) NOT NULL,
+    fkordentrabajo integer NOT NULL,
+    codigo character(2) NOT NULL,
+    descripcion character varying(50)
+);
+
+
+ALTER TABLE spactividad OWNER TO grupo06;
+
+--
+-- TOC entry 211 (class 1259 OID 28110)
+-- Name: spactividad_pkactividad_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spactividad_pkactividad_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spactividad_pkactividad_seq OWNER TO grupo06;
+
+--
+-- TOC entry 193 (class 1259 OID 27813)
+-- Name: spcargo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spcargo (
+    pkcargo integer DEFAULT nextval(('"spcargo_pkcargo_seq"'::text)::regclass) NOT NULL,
+    codigo character(3) NOT NULL,
+    descripcion character varying(50) NOT NULL
+);
+
+
+ALTER TABLE spcargo OWNER TO grupo06;
+
+--
+-- TOC entry 212 (class 1259 OID 28112)
+-- Name: spcargo_pkcargo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spcargo_pkcargo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spcargo_pkcargo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 194 (class 1259 OID 27817)
+-- Name: spdetimproductiva; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spdetimproductiva (
+    pkdetimproductiva integer DEFAULT nextval(('"spdetimproductiva_pkdetimproductiva_seq"'::text)::regclass) NOT NULL,
+    fkpartediario integer NOT NULL,
+    nroitem integer,
+    fkimproductiva integer NOT NULL,
+    hrs numeric(10,2)
+);
+
+
+ALTER TABLE spdetimproductiva OWNER TO grupo06;
+
+--
+-- TOC entry 213 (class 1259 OID 28114)
+-- Name: spdetimproductiva_pkdetimproductiva_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spdetimproductiva_pkdetimproductiva_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spdetimproductiva_pkdetimproductiva_seq OWNER TO grupo06;
+
+--
+-- TOC entry 195 (class 1259 OID 27821)
+-- Name: spdetproductiva; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spdetproductiva (
+    pkdetpartediario integer DEFAULT nextval(('"spdetproductiva_pkdetpartediario_seq"'::text)::regclass) NOT NULL,
+    fkpartediario integer NOT NULL,
+    nroitem smallint NOT NULL,
+    fkitemobra integer NOT NULL,
+    grupo smallint NOT NULL,
+    hmtoini numeric(10,2),
+    hmtofin numeric(10,2),
+    area numeric(10,2)
+);
+
+
+ALTER TABLE spdetproductiva OWNER TO grupo06;
+
+--
+-- TOC entry 214 (class 1259 OID 28116)
+-- Name: spdetproductiva_pkdetpartediario_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spdetproductiva_pkdetpartediario_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spdetproductiva_pkdetpartediario_seq OWNER TO grupo06;
+
+--
+-- TOC entry 196 (class 1259 OID 27825)
+-- Name: spdettransfequipo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spdettransfequipo (
+    pkdettransfequipo integer DEFAULT nextval(('"spdettransfequipo_pkdettransfequipo_seq"'::text)::regclass) NOT NULL,
+    fktransfequipo integer NOT NULL,
+    item integer,
+    fkequipo integer NOT NULL,
+    observacion character varying(50),
+    hmto numeric(10,2)
+);
+
+
+ALTER TABLE spdettransfequipo OWNER TO grupo06;
+
+--
+-- TOC entry 215 (class 1259 OID 28118)
+-- Name: spdettransfequipo_pkdettransfequipo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spdettransfequipo_pkdettransfequipo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spdettransfequipo_pkdettransfequipo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 197 (class 1259 OID 27829)
+-- Name: spdettransfpersonal; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spdettransfpersonal (
+    pkdettransfpersonal integer DEFAULT nextval(('"spdettransfpersonal_pkdettransfpersonal_seq"'::text)::regclass) NOT NULL,
+    fktransfpersonal integer NOT NULL,
+    item integer,
+    fkpersonal integer NOT NULL,
+    observacion character varying(50)
+);
+
+
+ALTER TABLE spdettransfpersonal OWNER TO grupo06;
+
+--
+-- TOC entry 216 (class 1259 OID 28120)
+-- Name: spdettransfpersonal_pkdettransfpersonal_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spdettransfpersonal_pkdettransfpersonal_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spdettransfpersonal_pkdettransfpersonal_seq OWNER TO grupo06;
+
+--
+-- TOC entry 198 (class 1259 OID 27833)
+-- Name: speqmodelo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE speqmodelo (
+    pkeqmodelo integer DEFAULT nextval(('"speqmodelo_pkeqmodelo_seq"'::text)::regclass) NOT NULL,
+    fkeqtipo integer NOT NULL,
+    codigo character(2) NOT NULL,
+    descripcion character varying(25)
+);
+
+
+ALTER TABLE speqmodelo OWNER TO grupo06;
+
+--
+-- TOC entry 217 (class 1259 OID 28122)
+-- Name: speqmodelo_pkeqmodelo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE speqmodelo_pkeqmodelo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE speqmodelo_pkeqmodelo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 199 (class 1259 OID 27837)
+-- Name: speqtipo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE speqtipo (
+    pkeqtipo integer DEFAULT nextval(('"speqtipo_pkeqtipo_seq"'::text)::regclass) NOT NULL,
+    codigo character(2) NOT NULL,
+    descripcion character varying(25)
+);
+
+
+ALTER TABLE speqtipo OWNER TO grupo06;
+
+--
+-- TOC entry 218 (class 1259 OID 28124)
+-- Name: speqtipo_pkeqtipo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE speqtipo_pkeqtipo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE speqtipo_pkeqtipo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 200 (class 1259 OID 27841)
+-- Name: spequipo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spequipo (
+    pkequipo integer DEFAULT nextval(('"spequipo_pkequipo_seq"'::text)::regclass) NOT NULL,
+    fktipoequipo integer NOT NULL,
+    fkmodelo integer NOT NULL,
+    codigo character(9) NOT NULL,
+    fktipocontrato character(1) NOT NULL,
+    fechaingreso date,
+    fkordentrabajo integer NOT NULL,
+    descripcion character varying(50)
+);
+
+
+ALTER TABLE spequipo OWNER TO grupo06;
+
+--
+-- TOC entry 219 (class 1259 OID 28126)
+-- Name: spequipo_pkequipo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spequipo_pkequipo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spequipo_pkequipo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 201 (class 1259 OID 27845)
+-- Name: spgestion; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spgestion (
+    pkgestion integer DEFAULT nextval(('"spgestion_pkgestion_seq"'::text)::regclass) NOT NULL,
+    codigo character(2) NOT NULL,
+    fechaini date,
+    fechafin date,
+    estado character(1)
+);
+
+
+ALTER TABLE spgestion OWNER TO grupo06;
+
+--
+-- TOC entry 220 (class 1259 OID 28128)
+-- Name: spgestion_pkgestion_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spgestion_pkgestion_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spgestion_pkgestion_seq OWNER TO grupo06;
+
+--
+-- TOC entry 202 (class 1259 OID 27849)
+-- Name: spimproductiva; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spimproductiva (
+    pkimproductiva integer DEFAULT nextval(('"spimproductiva_pkimproductiva_seq"'::text)::regclass) NOT NULL,
+    codigo character(4),
+    descripcion character varying(50)
+);
+
+
+ALTER TABLE spimproductiva OWNER TO grupo06;
+
+--
+-- TOC entry 221 (class 1259 OID 28130)
+-- Name: spimproductiva_pkimproductiva_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spimproductiva_pkimproductiva_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spimproductiva_pkimproductiva_seq OWNER TO grupo06;
+
+--
+-- TOC entry 203 (class 1259 OID 27853)
+-- Name: spitemobra; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spitemobra (
+    pkitemobra integer DEFAULT nextval(('"spitemobra_pkitemobra_seq"'::text)::regclass) NOT NULL,
+    fkordentrabajo integer NOT NULL,
+    fkpoligono integer NOT NULL,
+    fkactividad integer NOT NULL,
+    codigo character(6) NOT NULL,
+    descripcion character varying(50),
+    areatrab numeric(10,2),
+    rendimiento numeric(10,2)
+);
+
+
+ALTER TABLE spitemobra OWNER TO grupo06;
+
+--
+-- TOC entry 222 (class 1259 OID 28132)
+-- Name: spitemobra_pkitemobra_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spitemobra_pkitemobra_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spitemobra_pkitemobra_seq OWNER TO grupo06;
+
+--
+-- TOC entry 204 (class 1259 OID 27857)
+-- Name: spordentrabajo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spordentrabajo (
+    pkordentrabajo integer DEFAULT nextval(('"spordentrabajo_pkordentrabajo_seq"'::text)::regclass) NOT NULL,
+    codigo character(3) NOT NULL,
+    fkgestion integer NOT NULL,
+    nombre character varying(50),
+    supervisor character varying(50),
+    areaestimada numeric(10,2),
+    estado character(1),
+    data character(6)
+);
+
+
+ALTER TABLE spordentrabajo OWNER TO grupo06;
+
+--
+-- TOC entry 223 (class 1259 OID 28134)
+-- Name: spordentrabajo_pkordentrabajo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spordentrabajo_pkordentrabajo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spordentrabajo_pkordentrabajo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 205 (class 1259 OID 27861)
+-- Name: sppartediario; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE sppartediario (
+    pkpartediario integer DEFAULT nextval(('"sppartediario_pkpartediario_seq"'::text)::regclass) NOT NULL,
+    fkordentrabajo integer NOT NULL,
+    fecha date NOT NULL,
+    fkequipo integer NOT NULL,
+    fkturno integer NOT NULL,
+    fkoperador integer NOT NULL,
+    fkayudante integer NOT NULL,
+    observacion character varying(50)
+);
+
+
+ALTER TABLE sppartediario OWNER TO grupo06;
+
+--
+-- TOC entry 224 (class 1259 OID 28136)
+-- Name: sppartediario_pkpartediario_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE sppartediario_pkpartediario_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sppartediario_pkpartediario_seq OWNER TO grupo06;
+
+--
+-- TOC entry 206 (class 1259 OID 27865)
+-- Name: sppersonal; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE sppersonal (
+    pkpersonal integer DEFAULT nextval(('"sppersonal_pkpersonal_seq"'::text)::regclass) NOT NULL,
+    fechaingreso date,
+    nombrecomp character varying(50),
+    apellidos character varying(50),
+    direccion character varying(50),
+    telefono character varying(50),
+    ci character varying(25),
+    fechanac date,
+    fkcargo integer,
+    fkordentrabajo integer,
+    email character varying(25)
+);
+
+
+ALTER TABLE sppersonal OWNER TO grupo06;
+
+--
+-- TOC entry 225 (class 1259 OID 28138)
+-- Name: sppersonal_pkpersonal_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE sppersonal_pkpersonal_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sppersonal_pkpersonal_seq OWNER TO grupo06;
+
+--
+-- TOC entry 207 (class 1259 OID 27869)
+-- Name: sppoligono; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE sppoligono (
+    pkpoligono integer DEFAULT nextval(('"sppoligono_pkpoligono_seq"'::text)::regclass) NOT NULL,
+    fkordentrabajo integer NOT NULL,
+    codigo character(3) NOT NULL,
+    descripcion character varying(50)
+);
+
+
+ALTER TABLE sppoligono OWNER TO grupo06;
+
+--
+-- TOC entry 226 (class 1259 OID 28140)
+-- Name: sppoligono_pkpoligono_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE sppoligono_pkpoligono_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sppoligono_pkpoligono_seq OWNER TO grupo06;
+
+--
+-- TOC entry 208 (class 1259 OID 27873)
+-- Name: sptransfequipo; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE sptransfequipo (
+    pktransfequipo integer DEFAULT nextval(('"sptransfequipo_pktransfequipo_seq"'::text)::regclass) NOT NULL,
+    codigo character(4) NOT NULL,
+    fkgestion integer NOT NULL,
+    fecha date,
+    fkordenorigen integer NOT NULL,
+    fkordendestino integer NOT NULL,
+    observacion character varying(50),
+    data character(7) NOT NULL,
+    estado character(1) NOT NULL
+);
+
+
+ALTER TABLE sptransfequipo OWNER TO grupo06;
+
+--
+-- TOC entry 227 (class 1259 OID 28142)
+-- Name: sptransfequipo_pktransfequipo_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE sptransfequipo_pktransfequipo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sptransfequipo_pktransfequipo_seq OWNER TO grupo06;
+
+--
+-- TOC entry 209 (class 1259 OID 27877)
+-- Name: sptransfpersonal; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE sptransfpersonal (
+    pktransfpersonal integer DEFAULT nextval(('"sptransfpersonal_pktransfpersonal_seq"'::text)::regclass) NOT NULL,
+    codigo character(4) NOT NULL,
+    fkgestion integer NOT NULL,
+    fecha date,
+    fkordenorigen integer NOT NULL,
+    fkordendestino integer NOT NULL,
+    observacion character varying(50),
+    data character(7),
+    estado character(1)
+);
+
+
+ALTER TABLE sptransfpersonal OWNER TO grupo06;
+
+--
+-- TOC entry 228 (class 1259 OID 28144)
+-- Name: sptransfpersonal_pktransfpersonal_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE sptransfpersonal_pktransfpersonal_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sptransfpersonal_pktransfpersonal_seq OWNER TO grupo06;
+
+--
+-- TOC entry 210 (class 1259 OID 27881)
+-- Name: spturno; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE spturno (
+    pkturno integer DEFAULT nextval(('"spturno_pkturno_seq"'::text)::regclass) NOT NULL,
+    codigo character varying(3),
+    descripcion character varying(25),
+    fkordentrabajo integer
+);
+
+
+ALTER TABLE spturno OWNER TO grupo06;
+
+--
+-- TOC entry 3456 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: TABLE spturno; Type: COMMENT; Schema: public; Owner: grupo06
+--
+
+COMMENT ON TABLE spturno IS 'Esto se define dentro de cada obra,  algunas pueden tener mas de 1 turno  cada turno esta dividido en horas que se ejecutaran';
+
+
+--
+-- TOC entry 229 (class 1259 OID 28146)
+-- Name: spturno_pkturno_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE spturno_pkturno_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spturno_pkturno_seq OWNER TO grupo06;
+
+--
+-- TOC entry 234 (class 1259 OID 31735)
+-- Name: usuario; Type: TABLE; Schema: public; Owner: grupo06
+--
+
+CREATE TABLE usuario (
+    pkusuario integer DEFAULT nextval(('"usuario_pkusuario_seq"'::text)::regclass) NOT NULL,
+    nickname character varying(25),
+    nombrecompleto character varying(25),
+    apellidos character varying(25),
+    email character varying(25),
+    password character varying(25),
+    fkgrupousuario integer NOT NULL
+);
+
+
+ALTER TABLE usuario OWNER TO grupo06;
+
+--
+-- TOC entry 238 (class 1259 OID 31779)
+-- Name: usuario_pkusuario_seq; Type: SEQUENCE; Schema: public; Owner: grupo06
+--
+
+CREATE SEQUENCE usuario_pkusuario_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE usuario_pkusuario_seq OWNER TO grupo06;
+
+--
+-- TOC entry 3109 (class 2604 OID 25032)
+-- Name: grup_cod; Type: DEFAULT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY grupos ALTER COLUMN grup_cod SET DEFAULT nextval('grupos_grup_cod_seq'::regclass);
+
+
+--
+-- TOC entry 3110 (class 2604 OID 25060)
+-- Name: mod_cod; Type: DEFAULT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulos ALTER COLUMN mod_cod SET DEFAULT nextval('modulos_mod_cod_seq'::regclass);
+
+
+--
+-- TOC entry 3439 (class 0 OID 31720)
+-- Dependencies: 230
+-- Data for Name: accion; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO accion (pkaccion, codigo, descripcion, estado) VALUES (1, '1111', 'Nuevo', 'T');
+INSERT INTO accion (pkaccion, codigo, descripcion, estado) VALUES (2, '2222', 'Modificar', 'T');
+INSERT INTO accion (pkaccion, codigo, descripcion, estado) VALUES (3, '3333', 'Eliminar', 'T');
+INSERT INTO accion (pkaccion, codigo, descripcion, estado) VALUES (4, '4444', 'Listar', 'T');
+
+
+--
+-- TOC entry 3457 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: accion_pkaccion_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('accion_pkaccion_seq', 4, true);
+
+
+--
+-- TOC entry 3400 (class 0 OID 25083)
+-- Dependencies: 191
+-- Data for Name: acciones; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (1, 1, 'Registrar                                                   ', 'opcion=1101                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (1, 2, 'Modificar                                                   ', 'opcion=1102                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (1, 3, 'Eliminar                                                    ', 'opcion=1103                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (1, 4, 'Lista                                                       ', 'opcion=1104                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (2, 1, 'Registrar                                                   ', 'opcion=1201                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (2, 2, 'Modificar                                                   ', 'opcion=1202                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (2, 3, 'Eliminar                                                    ', 'opcion=1203                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (2, 4, 'Lista                                                       ', 'opcion=1204                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (3, 1, 'Registrar                                                   ', 'opcion=1301                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (3, 2, 'Modificar                                                   ', 'opcion=1302                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (3, 3, 'Eliminar                                                    ', 'opcion=1303                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (3, 4, 'Lista                                                       ', 'opcion=1304                             ', 0);
+INSERT INTO acciones (mod_cod, acc_cod, acc_descrip, acc_parametros, acc_est) VALUES (4, 1, 'Salir del Sistema                                           ', 'opcion=999                              ', 0);
+
+
+--
+-- TOC entry 3393 (class 0 OID 25022)
+-- Dependencies: 184
+-- Data for Name: administrador; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO administrador (adm_login, adm_password, adm_padre, adm_fech_i, adm_fech_f, grup_cod, adm_est, usr_cod) VALUES ('root           ', 'agenda         ', '0              ', '2016-01-01', '2017-01-01', 1, 0, '1              ');
+INSERT INTO administrador (adm_login, adm_password, adm_padre, adm_fech_i, adm_fech_f, grup_cod, adm_est, usr_cod) VALUES ('evans          ', 'evans          ', '0              ', '2016-01-01', '2017-01-01', 2, 0, '1124390        ');
+
+
+--
+-- TOC entry 3391 (class 0 OID 23868)
+-- Dependencies: 182
+-- Data for Name: amigo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO amigo (amig_ci, amig_nombre, amig_appm, amig_telf, amig_cel, amig_dir, amig_fnac) VALUES (3924689, 'Evans                                                                                                                                                 ', 'Balcazar Veizaga                                                                                                                                      ', '3952-2310        ', '710-76685                                                                                                                                             ', 'Av. Humberto S. R. #220                                                                                                                               ', '29/08/1975                                                                                                                                            ');
+INSERT INTO amigo (amig_ci, amig_nombre, amig_appm, amig_telf, amig_cel, amig_dir, amig_fnac) VALUES (4012065, 'Jose Manuel                                                                                                                                           ', 'Colque Paulasanz                                                                                                                                      ', '3952-2310        ', '710-99465                                                                                                                                             ', 'Av. 1ro de Mayo #1520                                                                                                                                 ', '14/05/1975                                                                                                                                            ');
+INSERT INTO amigo (amig_ci, amig_nombre, amig_appm, amig_telf, amig_cel, amig_dir, amig_fnac) VALUES (3924678, 'Roger                                                                                                                                                 ', 'Rodriguez Ledezma                                                                                                                                     ', '3952-2312        ', '778-08177                                                                                                                                             ', 'plan 3000 B/san agustin                                                                                                                               ', '04/06/1991                                                                                                                                            ');
+
+
+--
+-- TOC entry 3440 (class 0 OID 31724)
+-- Dependencies: 231
+-- Data for Name: grupo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO grupo (pkgrupo, descripcion, estado) VALUES (1, 'ADMINISTRADOR', 'T');
+INSERT INTO grupo (pkgrupo, descripcion, estado) VALUES (2, 'ALMACENERO', 'T');
+INSERT INTO grupo (pkgrupo, descripcion, estado) VALUES (3, 'REPORTES', 'T');
+
+
+--
+-- TOC entry 3458 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: grupo_pkgrupo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('grupo_pkgrupo_seq', 3, true);
+
+
+--
+-- TOC entry 3395 (class 0 OID 25029)
+-- Dependencies: 186
+-- Data for Name: grupos; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO grupos (grup_cod, grup_descrip, grup_observ, grup_est, adm_login) VALUES (1, 'Super Usuario       ', 'Administrar modulos                               ', 0, 'root           ');
+INSERT INTO grupos (grup_cod, grup_descrip, grup_observ, grup_est, adm_login) VALUES (2, 'Amigo               ', 'Agrega,quita Aniversariosa                        ', 0, 'root           ');
+INSERT INTO grupos (grup_cod, grup_descrip, grup_observ, grup_est, adm_login) VALUES (3, 'Vip                 ', 'Cita a Reuniones                                  ', 0, 'root           ');
+INSERT INTO grupos (grup_cod, grup_descrip, grup_observ, grup_est, adm_login) VALUES (4, 'Trabajo             ', 'comparte                                          ', 0, 'root           ');
+
+
+--
+-- TOC entry 3459 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: grupos_grup_cod_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('grupos_grup_cod_seq', 1, false);
+
+
+--
+-- TOC entry 3399 (class 0 OID 25068)
+-- Dependencies: 190
+-- Data for Name: mod_grup; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (1, 1, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (1, 2, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (1, 3, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (1, 4, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (2, 1, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (2, 3, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (2, 4, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (4, 3, '2016-12-01');
+INSERT INTO mod_grup (grup_cod, mod_cod, mod_grup_fech_install) VALUES (4, 4, '2016-12-01');
+
+
+--
+-- TOC entry 3441 (class 0 OID 31728)
+-- Dependencies: 232
+-- Data for Name: modulo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (1, 'Actividades Improductivas', 'Improductiva', 'idFImproductiva', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (2, 'Orden de Trabajo', 'OrdenTrabajo', 'idFOt', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (3, 'Gestion de Personal', 'Personal', 'idFPersonal', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (4, 'Items Obras', 'ItemObra', 'idFProductiva', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (5, 'Equipo Pesado', 'Equipo', 'idFEquipo', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (6, 'Admi. Gestiones', 'Gestion', 'idFGestion', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (7, 'Transferencia de Personal', 'TransfPersonal', 'idFTransfPersonal', 'T');
+INSERT INTO modulo (pkmodulo, descripcion, nombrefile, idmenu, estado) VALUES (8, 'Transferencia de Equipos', 'TransfEquipo', 'idFTransfEquipo', 'T');
+
+
+--
+-- TOC entry 3460 (class 0 OID 0)
+-- Dependencies: 237
+-- Name: modulo_pkmodulo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('modulo_pkmodulo_seq', 8, true);
+
+
+--
+-- TOC entry 3442 (class 0 OID 31732)
+-- Dependencies: 233
+-- Data for Name: modulogrupo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 1, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 1, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 1, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 1, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 2, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 2, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 2, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 2, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 3, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 3, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 3, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 3, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 4, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 4, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 4, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 4, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 5, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 5, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 5, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 5, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 6, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 6, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 6, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 6, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 7, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 7, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 7, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 7, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 8, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 8, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 8, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (1, 8, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 8, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 8, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 8, 3, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 8, 4, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 6, 1, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 6, 2, '2016-12-17');
+INSERT INTO modulogrupo (fkgrupo, fkmodulo, fkaccion, fechainstall) VALUES (2, 7, 1, '2016-12-17');
+
+
+--
+-- TOC entry 3398 (class 0 OID 25057)
+-- Dependencies: 189
+-- Data for Name: modulos; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO modulos (mod_cod, mod_descrip, mod_observ, mod_file, mod_nivel, mod_est, adm_login) VALUES (1, 'Admin. Usuarios                         ', 'OK                                      ', 'gestorAdmUsr.php                                            ', 1, 0, 'root           ');
+INSERT INTO modulos (mod_cod, mod_descrip, mod_observ, mod_file, mod_nivel, mod_est, adm_login) VALUES (2, 'Admin. Aniversarios                     ', 'OK                                      ', 'gestorAdmAniv.php                                           ', 1, 0, 'root           ');
+INSERT INTO modulos (mod_cod, mod_descrip, mod_observ, mod_file, mod_nivel, mod_est, adm_login) VALUES (3, 'Admin. Fiestas                          ', 'OK                                      ', 'gestorAdmFies.php                                           ', 1, 0, 'root           ');
+INSERT INTO modulos (mod_cod, mod_descrip, mod_observ, mod_file, mod_nivel, mod_est, adm_login) VALUES (4, 'Salir del Sistema                       ', 'OK                                      ', 'gestorLogin.php                                             ', 1, 0, 'root           ');
+
+
+--
+-- TOC entry 3461 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: modulos_mod_cod_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('modulos_mod_cod_seq', 1, false);
+
+
+--
+-- TOC entry 3396 (class 0 OID 25040)
+-- Dependencies: 187
+-- Data for Name: persona; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO persona (usr_cod, usr_password, usr_nom, usr_app, usr_apm, usr_telf, usr_email, usr_dir, usr_fecha_nac, usr_lugar_nac, usr_ci, usr_prof, usr_fech_i, usr_fech_f, usr_est, grup_cod, adm_login) VALUES ('1              ', '1              ', 'Super                              ', 'Administrador            ', 'root                     ', '710-76685         ', 'evansbv@yahoo.com                                           ', 'Av.humberto suarez                                          ', '2004-01-01', 'Camiri                                                      ', '1              ', 'SC                  ', '2016-01-01', '2017-01-01', 0, 1, 'root           ');
+INSERT INTO persona (usr_cod, usr_password, usr_nom, usr_app, usr_apm, usr_telf, usr_email, usr_dir, usr_fecha_nac, usr_lugar_nac, usr_ci, usr_prof, usr_fech_i, usr_fech_f, usr_est, grup_cod, adm_login) VALUES ('1124390        ', '3924986        ', 'Evans                              ', 'Balcazar                 ', 'Veizaga                  ', '710-76685         ', 'evansbv@yahoo.com                                           ', 'Av. Humberto Suarez Roca #220                               ', '1975-08-29', 'Puerto Suarez - Chiquitos                                   ', '3924689 SC     ', 'Estudiante          ', '2016-01-01', '2017-01-01', 0, 4, 'root           ');
+INSERT INTO persona (usr_cod, usr_password, usr_nom, usr_app, usr_apm, usr_telf, usr_email, usr_dir, usr_fecha_nac, usr_lugar_nac, usr_ci, usr_prof, usr_fech_i, usr_fech_f, usr_est, grup_cod, adm_login) VALUES ('1115707        ', '3885821        ', 'Erick                              ', 'Ureña                    ', 'Inarra                   ', '770-09255         ', 'ericksaurio@yahoo.com                                       ', 'Santos Dumont                                               ', '1975-01-25', 'Santa Crus de la Sierra                                     ', '3885821 SC     ', 'Estudiante          ', '2016-01-01', '2017-01-01', 0, 4, 'root           ');
+INSERT INTO persona (usr_cod, usr_password, usr_nom, usr_app, usr_apm, usr_telf, usr_email, usr_dir, usr_fecha_nac, usr_lugar_nac, usr_ci, usr_prof, usr_fech_i, usr_fech_f, usr_est, grup_cod, adm_login) VALUES ('941022749      ', '1932698        ', 'Milton                             ', 'Sandoval                 ', 'Salazar                  ', '770-73615         ', 'tommyltacho@yahoo.com                                       ', 'B. Tusequis                                                 ', '1975-07-26', 'Trinidad - Beni                                             ', '1932698 BN     ', 'Estudiante          ', '2016-01-01', '2016-01-01', 0, 4, 'root           ');
+INSERT INTO persona (usr_cod, usr_password, usr_nom, usr_app, usr_apm, usr_telf, usr_email, usr_dir, usr_fecha_nac, usr_lugar_nac, usr_ci, usr_prof, usr_fech_i, usr_fech_f, usr_est, grup_cod, adm_login) VALUES ('5260868        ', '3201225        ', 'Shirley Eulalia                    ', 'Perez                    ', 'Delgadillo               ', '709-34360         ', 'shirley_p@hotmail.com                                       ', 'B. El Pari                                                  ', '1976-04-28', 'La Paz - La Paz                                             ', '3201225 SC     ', 'Estudiante          ', '2016-01-01', '2017-01-01', 0, 4, 'root           ');
+
+
+--
+-- TOC entry 3392 (class 0 OID 23876)
+-- Dependencies: 183
+-- Data for Name: propietario; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO propietario (prop_user, prop_passwd, amig_ci) VALUES ('evans                                                                                                                                                 ', '12345                                                                                                                                                 ', 3924689);
+
+
+--
+-- TOC entry 3401 (class 0 OID 27809)
+-- Dependencies: 192
+-- Data for Name: spactividad; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spactividad (pkactividad, fkordentrabajo, codigo, descripcion) VALUES (1, 1, '01', 'CADENEO');
+INSERT INTO spactividad (pkactividad, fkordentrabajo, codigo, descripcion) VALUES (2, 1, '02', 'BASUREO');
+INSERT INTO spactividad (pkactividad, fkordentrabajo, codigo, descripcion) VALUES (3, 1, '03', 'ALIVIANADO');
+INSERT INTO spactividad (pkactividad, fkordentrabajo, codigo, descripcion) VALUES (4, 1, '04', 'DESMONTE');
+
+
+--
+-- TOC entry 3462 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: spactividad_pkactividad_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spactividad_pkactividad_seq', 4, true);
+
+
+--
+-- TOC entry 3402 (class 0 OID 27813)
+-- Dependencies: 193
+-- Data for Name: spcargo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spcargo (pkcargo, codigo, descripcion) VALUES (1, '001', 'AYUDANTE DE ORUGA');
+INSERT INTO spcargo (pkcargo, codigo, descripcion) VALUES (2, '002', 'OPERADOR DE ORUGA');
+INSERT INTO spcargo (pkcargo, codigo, descripcion) VALUES (3, '003', 'SUPERVISOR');
+
+
+--
+-- TOC entry 3463 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: spcargo_pkcargo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spcargo_pkcargo_seq', 3, true);
+
+
+--
+-- TOC entry 3403 (class 0 OID 27817)
+-- Dependencies: 194
+-- Data for Name: spdetimproductiva; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+
+
+--
+-- TOC entry 3464 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: spdetimproductiva_pkdetimproductiva_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spdetimproductiva_pkdetimproductiva_seq', 1, false);
+
+
+--
+-- TOC entry 3404 (class 0 OID 27821)
+-- Dependencies: 195
+-- Data for Name: spdetproductiva; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+
+
+--
+-- TOC entry 3465 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: spdetproductiva_pkdetpartediario_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spdetproductiva_pkdetpartediario_seq', 1, false);
+
+
+--
+-- TOC entry 3405 (class 0 OID 27825)
+-- Dependencies: 196
+-- Data for Name: spdettransfequipo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+
+
+--
+-- TOC entry 3466 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: spdettransfequipo_pkdettransfequipo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spdettransfequipo_pkdettransfequipo_seq', 1, false);
+
+
+--
+-- TOC entry 3406 (class 0 OID 27829)
+-- Dependencies: 197
+-- Data for Name: spdettransfpersonal; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spdettransfpersonal (pkdettransfpersonal, fktransfpersonal, item, fkpersonal, observacion) VALUES (1, 1, 1, 1, 'ES EL MECANICO QUE ESTA DE VIAJE');
+INSERT INTO spdettransfpersonal (pkdettransfpersonal, fktransfpersonal, item, fkpersonal, observacion) VALUES (2, 2, 1, 2, 'ENVIO');
+INSERT INTO spdettransfpersonal (pkdettransfpersonal, fktransfpersonal, item, fkpersonal, observacion) VALUES (3, 2, 2, 1, 'PERSONAL 2');
+
+
+--
+-- TOC entry 3467 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: spdettransfpersonal_pkdettransfpersonal_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spdettransfpersonal_pkdettransfpersonal_seq', 3, true);
+
+
+--
+-- TOC entry 3407 (class 0 OID 27833)
+-- Dependencies: 198
+-- Data for Name: speqmodelo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO speqmodelo (pkeqmodelo, fkeqtipo, codigo, descripcion) VALUES (1, 1, 'D7', 'TRACTOR ORUGA D7G');
+INSERT INTO speqmodelo (pkeqmodelo, fkeqtipo, codigo, descripcion) VALUES (2, 1, 'D8', 'TRACTOR ORUGA D8K');
+INSERT INTO speqmodelo (pkeqmodelo, fkeqtipo, codigo, descripcion) VALUES (3, 1, 'D9', 'TRACTOR ORUGA D9H');
+INSERT INTO speqmodelo (pkeqmodelo, fkeqtipo, codigo, descripcion) VALUES (4, 1, 'D6', 'TRACTOR ORUGA D6-SR');
+INSERT INTO speqmodelo (pkeqmodelo, fkeqtipo, codigo, descripcion) VALUES (5, 1, 'V8', 'TRACTOR AGRICOLA V-88');
+
+
+--
+-- TOC entry 3468 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: speqmodelo_pkeqmodelo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('speqmodelo_pkeqmodelo_seq', 5, true);
+
+
+--
+-- TOC entry 3408 (class 0 OID 27837)
+-- Dependencies: 199
+-- Data for Name: speqtipo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO speqtipo (pkeqtipo, codigo, descripcion) VALUES (1, '01', 'TRACTOR ORUGA CATERPILLAR');
+INSERT INTO speqtipo (pkeqtipo, codigo, descripcion) VALUES (2, '02', 'TRACTOR AGRICOLA');
+
+
+--
+-- TOC entry 3469 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: speqtipo_pkeqtipo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('speqtipo_pkeqtipo_seq', 2, true);
+
+
+--
+-- TOC entry 3409 (class 0 OID 27841)
+-- Dependencies: 200
+-- Data for Name: spequipo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spequipo (pkequipo, fktipoequipo, fkmodelo, codigo, fktipocontrato, fechaingreso, fkordentrabajo, descripcion) VALUES (2, 1, 1, '01-D7-100', '2', '2016-12-19', 1, 'TRACTOR ORUGA CATERPILLAR D7G D7-100');
+INSERT INTO spequipo (pkequipo, fktipoequipo, fkmodelo, codigo, fktipocontrato, fechaingreso, fkordentrabajo, descripcion) VALUES (1, 1, 1, '01-D7-111', '1', '2016-12-16', 1, 'TRACTOR ORUGA D7G CATERPILLAR');
+
+
+--
+-- TOC entry 3470 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: spequipo_pkequipo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spequipo_pkequipo_seq', 2, true);
+
+
+--
+-- TOC entry 3410 (class 0 OID 27845)
+-- Dependencies: 201
+-- Data for Name: spgestion; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spgestion (pkgestion, codigo, fechaini, fechafin, estado) VALUES (1, '16', '2016-01-01', '2016-12-31', 'T');
+
+
+--
+-- TOC entry 3471 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: spgestion_pkgestion_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spgestion_pkgestion_seq', 1, true);
+
+
+--
+-- TOC entry 3411 (class 0 OID 27849)
+-- Dependencies: 202
+-- Data for Name: spimproductiva; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spimproductiva (pkimproductiva, codigo, descripcion) VALUES (1, '01  ', 'TERRENO INOPERABLE');
+
+
+--
+-- TOC entry 3472 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: spimproductiva_pkimproductiva_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spimproductiva_pkimproductiva_seq', 1, true);
+
+
+--
+-- TOC entry 3412 (class 0 OID 27853)
+-- Dependencies: 203
+-- Data for Name: spitemobra; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spitemobra (pkitemobra, fkordentrabajo, fkpoligono, fkactividad, codigo, descripcion, areatrab, rendimiento) VALUES (1, 1, 1, 2, 'A01-02', 'BASUREO - POLIGONO A1', 50.00, 0.70);
+
+
+--
+-- TOC entry 3473 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: spitemobra_pkitemobra_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spitemobra_pkitemobra_seq', 1, true);
+
+
+--
+-- TOC entry 3413 (class 0 OID 27857)
+-- Dependencies: 204
+-- Data for Name: spordentrabajo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO spordentrabajo (pkordentrabajo, codigo, fkgestion, nombre, supervisor, areaestimada, estado, data) VALUES (1, '001', 1, 'SAN ANTONIO', 'JUAN AMERICO SANCHEZ', 1000.00, 'T', '001-16');
+INSERT INTO spordentrabajo (pkordentrabajo, codigo, fkgestion, nombre, supervisor, areaestimada, estado, data) VALUES (2, '002', 1, 'SAN BUENAVENTURA - RURRENABAQUE', 'JUAN CAMPOS', 10.00, 'T', '002-16');
+INSERT INTO spordentrabajo (pkordentrabajo, codigo, fkgestion, nombre, supervisor, areaestimada, estado, data) VALUES (3, '009', 1, 'MMONMMONTEMMONMMONTER', 'JJHGJJHGG', 0.00, 'F', '009-16');
+
+
+--
+-- TOC entry 3474 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: spordentrabajo_pkordentrabajo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spordentrabajo_pkordentrabajo_seq', 3, true);
+
+
+--
+-- TOC entry 3414 (class 0 OID 27861)
+-- Dependencies: 205
+-- Data for Name: sppartediario; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+
+
+--
+-- TOC entry 3475 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: sppartediario_pkpartediario_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('sppartediario_pkpartediario_seq', 1, false);
+
+
+--
+-- TOC entry 3415 (class 0 OID 27865)
+-- Dependencies: 206
+-- Data for Name: sppersonal; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO sppersonal (pkpersonal, fechaingreso, nombrecomp, apellidos, direccion, telefono, ci, fechanac, fkcargo, fkordentrabajo, email) VALUES (1, '2016-12-15', 'JUAN CARLOS ', 'VARGAS', 'CALLE YAPACANI #23', '7777777', '7563647-SCZ', '1983-01-07', 1, 1, 'prueba@hotmail.com');
+INSERT INTO sppersonal (pkpersonal, fechaingreso, nombrecomp, apellidos, direccion, telefono, ci, fechanac, fkcargo, fkordentrabajo, email) VALUES (2, '2016-12-20', 'JUAN PABLO', 'CABRERA', 'CALLE LOS TOBOROCHIS #23', '33333', '7777777', '2016-12-20', 3, 1, 'hola@hotmail.com');
+INSERT INTO sppersonal (pkpersonal, fechaingreso, nombrecomp, apellidos, direccion, telefono, ci, fechanac, fkcargo, fkordentrabajo, email) VALUES (3, '2016-12-21', 'MARIA', 'PEREZ', 'AV. BUSCH', '70012345', '1234569-SCZ', '2016-12-21', 1, 2, 'MARIA@GMIAL');
+
+
+--
+-- TOC entry 3476 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: sppersonal_pkpersonal_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('sppersonal_pkpersonal_seq', 3, true);
+
+
+--
+-- TOC entry 3416 (class 0 OID 27869)
+-- Dependencies: 207
+-- Data for Name: sppoligono; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO sppoligono (pkpoligono, fkordentrabajo, codigo, descripcion) VALUES (1, 1, 'A01', 'POLIGONO A1');
+INSERT INTO sppoligono (pkpoligono, fkordentrabajo, codigo, descripcion) VALUES (2, 1, 'A02', 'POLIGONO A2');
+INSERT INTO sppoligono (pkpoligono, fkordentrabajo, codigo, descripcion) VALUES (3, 1, 'A03', 'POLIGONO A3');
+INSERT INTO sppoligono (pkpoligono, fkordentrabajo, codigo, descripcion) VALUES (4, 1, 'A04', 'POLIGONO A4');
+
+
+--
+-- TOC entry 3477 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: sppoligono_pkpoligono_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('sppoligono_pkpoligono_seq', 4, true);
+
+
+--
+-- TOC entry 3417 (class 0 OID 27873)
+-- Dependencies: 208
+-- Data for Name: sptransfequipo; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+
+
+--
+-- TOC entry 3478 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: sptransfequipo_pktransfequipo_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('sptransfequipo_pktransfequipo_seq', 1, false);
+
+
+--
+-- TOC entry 3418 (class 0 OID 27877)
+-- Dependencies: 209
+-- Data for Name: sptransfpersonal; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO sptransfpersonal (pktransfpersonal, codigo, fkgestion, fecha, fkordenorigen, fkordendestino, observacion, data, estado) VALUES (1, '0001', 1, '2016-12-20', 1, 2, 'ENVIO DE PERSONAL AL CAMPO', '0001-16', 'T');
+INSERT INTO sptransfpersonal (pktransfpersonal, codigo, fkgestion, fecha, fkordenorigen, fkordendestino, observacion, data, estado) VALUES (2, '0003', 1, '2016-12-21', 1, 2, 'HOLA DJDDJ', '0003-16', 'T');
+
+
+--
+-- TOC entry 3479 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: sptransfpersonal_pktransfpersonal_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('sptransfpersonal_pktransfpersonal_seq', 2, true);
+
+
+--
+-- TOC entry 3419 (class 0 OID 27881)
+-- Dependencies: 210
+-- Data for Name: spturno; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+
+
+--
+-- TOC entry 3480 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: spturno_pkturno_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('spturno_pkturno_seq', 1, false);
+
+
+--
+-- TOC entry 3443 (class 0 OID 31735)
+-- Dependencies: 234
+-- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: grupo06
+--
+
+INSERT INTO usuario (pkusuario, nickname, nombrecompleto, apellidos, email, password, fkgrupousuario) VALUES (2, 'limbert', 'Alex Limbert', 'Yalusqui', 'limbert@hotmail.com', 'limbert', 1);
+INSERT INTO usuario (pkusuario, nickname, nombrecompleto, apellidos, email, password, fkgrupousuario) VALUES (3, 'cabrera', 'Gilber', 'Cabrera', 'cabrera@hotmail.com', 'cabrera', 2);
+
+
+--
+-- TOC entry 3481 (class 0 OID 0)
+-- Dependencies: 238
+-- Name: usuario_pkusuario_seq; Type: SEQUENCE SET; Schema: public; Owner: grupo06
+--
+
+SELECT pg_catalog.setval('usuario_pkusuario_seq', 3, true);
+
+
+--
+-- TOC entry 3149 (class 2606 OID 25090)
+-- Name: acciones_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY acciones
+    ADD CONSTRAINT acciones_pkey PRIMARY KEY (mod_cod, acc_cod);
+
+
+--
+-- TOC entry 3139 (class 2606 OID 25026)
+-- Name: administrador_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY administrador
+    ADD CONSTRAINT administrador_pkey PRIMARY KEY (adm_login);
+
+
+--
+-- TOC entry 3135 (class 2606 OID 23875)
+-- Name: amigo_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY amigo
+    ADD CONSTRAINT amigo_pkey PRIMARY KEY (amig_ci);
+
+
+--
+-- TOC entry 3141 (class 2606 OID 25034)
+-- Name: grupos_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY grupos
+    ADD CONSTRAINT grupos_pkey PRIMARY KEY (grup_cod);
+
+
+--
+-- TOC entry 3147 (class 2606 OID 25072)
+-- Name: mod_grup_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY mod_grup
+    ADD CONSTRAINT mod_grup_pkey PRIMARY KEY (grup_cod, mod_cod);
+
+
+--
+-- TOC entry 3145 (class 2606 OID 25062)
+-- Name: modulos_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulos
+    ADD CONSTRAINT modulos_pkey PRIMARY KEY (mod_cod);
+
+
+--
+-- TOC entry 3143 (class 2606 OID 25044)
+-- Name: persona_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY persona
+    ADD CONSTRAINT persona_pkey PRIMARY KEY (usr_cod);
+
+
+--
+-- TOC entry 3221 (class 2606 OID 31740)
+-- Name: pk_accion; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY accion
+    ADD CONSTRAINT pk_accion PRIMARY KEY (pkaccion);
+
+
+--
+-- TOC entry 3223 (class 2606 OID 31742)
+-- Name: pk_grupo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY grupo
+    ADD CONSTRAINT pk_grupo PRIMARY KEY (pkgrupo);
+
+
+--
+-- TOC entry 3225 (class 2606 OID 31744)
+-- Name: pk_modulo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulo
+    ADD CONSTRAINT pk_modulo PRIMARY KEY (pkmodulo);
+
+
+--
+-- TOC entry 3230 (class 2606 OID 31746)
+-- Name: pk_modulogrupo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulogrupo
+    ADD CONSTRAINT pk_modulogrupo PRIMARY KEY (fkgrupo, fkmodulo, fkaccion);
+
+
+--
+-- TOC entry 3199 (class 2606 OID 27929)
+-- Name: pk_partediario; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppartediario
+    ADD CONSTRAINT pk_partediario PRIMARY KEY (pkpartediario);
+
+
+--
+-- TOC entry 3152 (class 2606 OID 27886)
+-- Name: pk_spactividad; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spactividad
+    ADD CONSTRAINT pk_spactividad PRIMARY KEY (pkactividad);
+
+
+--
+-- TOC entry 3154 (class 2606 OID 27889)
+-- Name: pk_spcargo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spcargo
+    ADD CONSTRAINT pk_spcargo PRIMARY KEY (pkcargo);
+
+
+--
+-- TOC entry 3162 (class 2606 OID 27895)
+-- Name: pk_spdetpartediario; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdetproductiva
+    ADD CONSTRAINT pk_spdetpartediario PRIMARY KEY (pkdetpartediario);
+
+
+--
+-- TOC entry 3166 (class 2606 OID 27899)
+-- Name: pk_spdettransfequipo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdettransfequipo
+    ADD CONSTRAINT pk_spdettransfequipo PRIMARY KEY (pkdettransfequipo);
+
+
+--
+-- TOC entry 3170 (class 2606 OID 27903)
+-- Name: pk_spdettransfpersonal; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdettransfpersonal
+    ADD CONSTRAINT pk_spdettransfpersonal PRIMARY KEY (pkdettransfpersonal);
+
+
+--
+-- TOC entry 3173 (class 2606 OID 27907)
+-- Name: pk_speqmodelo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY speqmodelo
+    ADD CONSTRAINT pk_speqmodelo PRIMARY KEY (pkeqmodelo);
+
+
+--
+-- TOC entry 3175 (class 2606 OID 27910)
+-- Name: pk_speqtipo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY speqtipo
+    ADD CONSTRAINT pk_speqtipo PRIMARY KEY (pkeqtipo);
+
+
+--
+-- TOC entry 3180 (class 2606 OID 27912)
+-- Name: pk_spequipo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spequipo
+    ADD CONSTRAINT pk_spequipo PRIMARY KEY (pkequipo);
+
+
+--
+-- TOC entry 3182 (class 2606 OID 27917)
+-- Name: pk_spgestion; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spgestion
+    ADD CONSTRAINT pk_spgestion PRIMARY KEY (pkgestion);
+
+
+--
+-- TOC entry 3184 (class 2606 OID 27919)
+-- Name: pk_spimproductiva; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spimproductiva
+    ADD CONSTRAINT pk_spimproductiva PRIMARY KEY (pkimproductiva);
+
+
+--
+-- TOC entry 3189 (class 2606 OID 27921)
+-- Name: pk_spitemobra; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spitemobra
+    ADD CONSTRAINT pk_spitemobra PRIMARY KEY (pkitemobra);
+
+
+--
+-- TOC entry 3192 (class 2606 OID 27926)
+-- Name: pk_spordentrabajo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spordentrabajo
+    ADD CONSTRAINT pk_spordentrabajo PRIMARY KEY (pkordentrabajo);
+
+
+--
+-- TOC entry 3203 (class 2606 OID 27936)
+-- Name: pk_sppersonal; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppersonal
+    ADD CONSTRAINT pk_sppersonal PRIMARY KEY (pkpersonal);
+
+
+--
+-- TOC entry 3206 (class 2606 OID 27940)
+-- Name: pk_sppoligono; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppoligono
+    ADD CONSTRAINT pk_sppoligono PRIMARY KEY (pkpoligono);
+
+
+--
+-- TOC entry 3211 (class 2606 OID 27943)
+-- Name: pk_sptransfequipo; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfequipo
+    ADD CONSTRAINT pk_sptransfequipo PRIMARY KEY (pktransfequipo);
+
+
+--
+-- TOC entry 3216 (class 2606 OID 27948)
+-- Name: pk_sptransfpersonal; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfpersonal
+    ADD CONSTRAINT pk_sptransfpersonal PRIMARY KEY (pktransfpersonal);
+
+
+--
+-- TOC entry 3219 (class 2606 OID 27953)
+-- Name: pk_spturno; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spturno
+    ADD CONSTRAINT pk_spturno PRIMARY KEY (pkturno);
+
+
+--
+-- TOC entry 3158 (class 2606 OID 27891)
+-- Name: pk_table1; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdetimproductiva
+    ADD CONSTRAINT pk_table1 PRIMARY KEY (pkdetimproductiva);
+
+
+--
+-- TOC entry 3233 (class 2606 OID 31751)
+-- Name: pk_usuario; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT pk_usuario PRIMARY KEY (pkusuario);
+
+
+--
+-- TOC entry 3137 (class 2606 OID 23880)
+-- Name: propietario_pkey; Type: CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY propietario
+    ADD CONSTRAINT propietario_pkey PRIMARY KEY (prop_user);
+
+
+--
+-- TOC entry 3226 (class 1259 OID 31747)
+-- Name: ixfk_modulogrupo_accion; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_modulogrupo_accion ON modulogrupo USING btree (fkaccion);
+
+
+--
+-- TOC entry 3227 (class 1259 OID 31748)
+-- Name: ixfk_modulogrupo_grupo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_modulogrupo_grupo ON modulogrupo USING btree (fkgrupo);
+
+
+--
+-- TOC entry 3228 (class 1259 OID 31749)
+-- Name: ixfk_modulogrupo_modulo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_modulogrupo_modulo ON modulogrupo USING btree (fkmodulo);
+
+
+--
+-- TOC entry 3150 (class 1259 OID 27887)
+-- Name: ixfk_spactividad_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spactividad_spordentrabajo ON spactividad USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3155 (class 1259 OID 27892)
+-- Name: ixfk_spdetimproductiva_spimproductiva; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdetimproductiva_spimproductiva ON spdetimproductiva USING btree (fkimproductiva);
+
+
+--
+-- TOC entry 3156 (class 1259 OID 27893)
+-- Name: ixfk_spdetimproductiva_sppartediario; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdetimproductiva_sppartediario ON spdetimproductiva USING btree (fkpartediario);
+
+
+--
+-- TOC entry 3159 (class 1259 OID 27896)
+-- Name: ixfk_spdetproductiva_spitemobra; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdetproductiva_spitemobra ON spdetproductiva USING btree (fkitemobra);
+
+
+--
+-- TOC entry 3160 (class 1259 OID 27897)
+-- Name: ixfk_spdetproductiva_sppartediario; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdetproductiva_sppartediario ON spdetproductiva USING btree (fkpartediario);
+
+
+--
+-- TOC entry 3163 (class 1259 OID 27900)
+-- Name: ixfk_spdettransfequipo_spequipo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdettransfequipo_spequipo ON spdettransfequipo USING btree (fkequipo);
+
+
+--
+-- TOC entry 3164 (class 1259 OID 27901)
+-- Name: ixfk_spdettransfequipo_sptransfequipo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdettransfequipo_sptransfequipo ON spdettransfequipo USING btree (fktransfequipo);
+
+
+--
+-- TOC entry 3167 (class 1259 OID 27904)
+-- Name: ixfk_spdettransfpersonal_sppersonal; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdettransfpersonal_sppersonal ON spdettransfpersonal USING btree (fkpersonal);
+
+
+--
+-- TOC entry 3168 (class 1259 OID 27905)
+-- Name: ixfk_spdettransfpersonal_sptransfpersonal; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spdettransfpersonal_sptransfpersonal ON spdettransfpersonal USING btree (fktransfpersonal);
+
+
+--
+-- TOC entry 3171 (class 1259 OID 27908)
+-- Name: ixfk_speqmodelo_speqtipo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_speqmodelo_speqtipo ON speqmodelo USING btree (fkeqtipo);
+
+
+--
+-- TOC entry 3176 (class 1259 OID 27913)
+-- Name: ixfk_spequipo_speqmodelo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spequipo_speqmodelo ON spequipo USING btree (fkmodelo);
+
+
+--
+-- TOC entry 3177 (class 1259 OID 27914)
+-- Name: ixfk_spequipo_speqtipo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spequipo_speqtipo ON spequipo USING btree (fktipoequipo);
+
+
+--
+-- TOC entry 3178 (class 1259 OID 27915)
+-- Name: ixfk_spequipo_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spequipo_spordentrabajo ON spequipo USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3185 (class 1259 OID 27922)
+-- Name: ixfk_spitemobra_spactividad; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spitemobra_spactividad ON spitemobra USING btree (fkactividad);
+
+
+--
+-- TOC entry 3186 (class 1259 OID 27923)
+-- Name: ixfk_spitemobra_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spitemobra_spordentrabajo ON spitemobra USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3187 (class 1259 OID 27924)
+-- Name: ixfk_spitemobra_sppoligono; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spitemobra_sppoligono ON spitemobra USING btree (fkpoligono);
+
+
+--
+-- TOC entry 3190 (class 1259 OID 27927)
+-- Name: ixfk_spordentrabajo_spgestion; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spordentrabajo_spgestion ON spordentrabajo USING btree (fkgestion);
+
+
+--
+-- TOC entry 3193 (class 1259 OID 27930)
+-- Name: ixfk_sppartediario_spequipo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppartediario_spequipo ON sppartediario USING btree (fkequipo);
+
+
+--
+-- TOC entry 3194 (class 1259 OID 27931)
+-- Name: ixfk_sppartediario_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppartediario_spordentrabajo ON sppartediario USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3195 (class 1259 OID 27932)
+-- Name: ixfk_sppartediario_sppersonal; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppartediario_sppersonal ON sppartediario USING btree (fkoperador);
+
+
+--
+-- TOC entry 3196 (class 1259 OID 27933)
+-- Name: ixfk_sppartediario_sppersonal_02; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppartediario_sppersonal_02 ON sppartediario USING btree (fkayudante);
+
+
+--
+-- TOC entry 3197 (class 1259 OID 27934)
+-- Name: ixfk_sppartediario_spturno; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppartediario_spturno ON sppartediario USING btree (fkturno);
+
+
+--
+-- TOC entry 3200 (class 1259 OID 27937)
+-- Name: ixfk_sppersonal_spcargo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppersonal_spcargo ON sppersonal USING btree (fkcargo);
+
+
+--
+-- TOC entry 3201 (class 1259 OID 27938)
+-- Name: ixfk_sppersonal_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppersonal_spordentrabajo ON sppersonal USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3204 (class 1259 OID 27941)
+-- Name: ixfk_sppoligono_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sppoligono_spordentrabajo ON sppoligono USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3207 (class 1259 OID 27944)
+-- Name: ixfk_sptransfequipo_spgestion; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sptransfequipo_spgestion ON sptransfequipo USING btree (fkgestion);
+
+
+--
+-- TOC entry 3208 (class 1259 OID 27945)
+-- Name: ixfk_sptransfequipo_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sptransfequipo_spordentrabajo ON sptransfequipo USING btree (fkordenorigen);
+
+
+--
+-- TOC entry 3209 (class 1259 OID 27946)
+-- Name: ixfk_sptransfequipo_spordentrabajo_02; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sptransfequipo_spordentrabajo_02 ON sptransfequipo USING btree (fkordendestino);
+
+
+--
+-- TOC entry 3212 (class 1259 OID 27949)
+-- Name: ixfk_sptransfpersonal_spgestion; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sptransfpersonal_spgestion ON sptransfpersonal USING btree (fkgestion);
+
+
+--
+-- TOC entry 3213 (class 1259 OID 27950)
+-- Name: ixfk_sptransfpersonal_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sptransfpersonal_spordentrabajo ON sptransfpersonal USING btree (fkordenorigen);
+
+
+--
+-- TOC entry 3214 (class 1259 OID 27951)
+-- Name: ixfk_sptransfpersonal_spordentrabajo_02; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_sptransfpersonal_spordentrabajo_02 ON sptransfpersonal USING btree (fkordendestino);
+
+
+--
+-- TOC entry 3217 (class 1259 OID 27954)
+-- Name: ixfk_spturno_spordentrabajo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_spturno_spordentrabajo ON spturno USING btree (fkordentrabajo);
+
+
+--
+-- TOC entry 3231 (class 1259 OID 31752)
+-- Name: ixfk_usuario_grupo; Type: INDEX; Schema: public; Owner: grupo06
+--
+
+CREATE INDEX ixfk_usuario_grupo ON usuario USING btree (fkgrupousuario);
+
+
+--
+-- TOC entry 3241 (class 2606 OID 25091)
+-- Name: acciones_mod_cod_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY acciones
+    ADD CONSTRAINT acciones_mod_cod_fkey FOREIGN KEY (mod_cod) REFERENCES modulos(mod_cod);
+
+
+--
+-- TOC entry 3273 (class 2606 OID 31753)
+-- Name: fk_modulogrupo_accion; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulogrupo
+    ADD CONSTRAINT fk_modulogrupo_accion FOREIGN KEY (fkaccion) REFERENCES accion(pkaccion);
+
+
+--
+-- TOC entry 3274 (class 2606 OID 31758)
+-- Name: fk_modulogrupo_grupo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulogrupo
+    ADD CONSTRAINT fk_modulogrupo_grupo FOREIGN KEY (fkgrupo) REFERENCES grupo(pkgrupo);
+
+
+--
+-- TOC entry 3275 (class 2606 OID 31763)
+-- Name: fk_modulogrupo_modulo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulogrupo
+    ADD CONSTRAINT fk_modulogrupo_modulo FOREIGN KEY (fkmodulo) REFERENCES modulo(pkmodulo);
+
+
+--
+-- TOC entry 3242 (class 2606 OID 27955)
+-- Name: fk_spactividad_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spactividad
+    ADD CONSTRAINT fk_spactividad_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3243 (class 2606 OID 27960)
+-- Name: fk_spdetimproductiva_spimproductiva; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdetimproductiva
+    ADD CONSTRAINT fk_spdetimproductiva_spimproductiva FOREIGN KEY (fkimproductiva) REFERENCES spimproductiva(pkimproductiva);
+
+
+--
+-- TOC entry 3244 (class 2606 OID 27965)
+-- Name: fk_spdetimproductiva_sppartediario; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdetimproductiva
+    ADD CONSTRAINT fk_spdetimproductiva_sppartediario FOREIGN KEY (fkpartediario) REFERENCES sppartediario(pkpartediario);
+
+
+--
+-- TOC entry 3245 (class 2606 OID 27970)
+-- Name: fk_spdetproductiva_spitemobra; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdetproductiva
+    ADD CONSTRAINT fk_spdetproductiva_spitemobra FOREIGN KEY (fkitemobra) REFERENCES spitemobra(pkitemobra);
+
+
+--
+-- TOC entry 3246 (class 2606 OID 27975)
+-- Name: fk_spdetproductiva_sppartediario; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdetproductiva
+    ADD CONSTRAINT fk_spdetproductiva_sppartediario FOREIGN KEY (fkpartediario) REFERENCES sppartediario(pkpartediario);
+
+
+--
+-- TOC entry 3247 (class 2606 OID 27980)
+-- Name: fk_spdettransfequipo_spequipo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdettransfequipo
+    ADD CONSTRAINT fk_spdettransfequipo_spequipo FOREIGN KEY (fkequipo) REFERENCES spequipo(pkequipo);
+
+
+--
+-- TOC entry 3248 (class 2606 OID 27985)
+-- Name: fk_spdettransfequipo_sptransfequipo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdettransfequipo
+    ADD CONSTRAINT fk_spdettransfequipo_sptransfequipo FOREIGN KEY (fktransfequipo) REFERENCES sptransfequipo(pktransfequipo);
+
+
+--
+-- TOC entry 3249 (class 2606 OID 27990)
+-- Name: fk_spdettransfpersonal_sppersonal; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdettransfpersonal
+    ADD CONSTRAINT fk_spdettransfpersonal_sppersonal FOREIGN KEY (fkpersonal) REFERENCES sppersonal(pkpersonal);
+
+
+--
+-- TOC entry 3250 (class 2606 OID 27995)
+-- Name: fk_spdettransfpersonal_sptransfpersonal; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spdettransfpersonal
+    ADD CONSTRAINT fk_spdettransfpersonal_sptransfpersonal FOREIGN KEY (fktransfpersonal) REFERENCES sptransfpersonal(pktransfpersonal);
+
+
+--
+-- TOC entry 3251 (class 2606 OID 28000)
+-- Name: fk_speqmodelo_speqtipo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY speqmodelo
+    ADD CONSTRAINT fk_speqmodelo_speqtipo FOREIGN KEY (fkeqtipo) REFERENCES speqtipo(pkeqtipo);
+
+
+--
+-- TOC entry 3252 (class 2606 OID 28005)
+-- Name: fk_spequipo_speqmodelo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spequipo
+    ADD CONSTRAINT fk_spequipo_speqmodelo FOREIGN KEY (fkmodelo) REFERENCES speqmodelo(pkeqmodelo);
+
+
+--
+-- TOC entry 3253 (class 2606 OID 28010)
+-- Name: fk_spequipo_speqtipo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spequipo
+    ADD CONSTRAINT fk_spequipo_speqtipo FOREIGN KEY (fktipoequipo) REFERENCES speqtipo(pkeqtipo);
+
+
+--
+-- TOC entry 3254 (class 2606 OID 28015)
+-- Name: fk_spequipo_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spequipo
+    ADD CONSTRAINT fk_spequipo_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3255 (class 2606 OID 28020)
+-- Name: fk_spitemobra_spactividad; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spitemobra
+    ADD CONSTRAINT fk_spitemobra_spactividad FOREIGN KEY (fkactividad) REFERENCES spactividad(pkactividad);
+
+
+--
+-- TOC entry 3256 (class 2606 OID 28025)
+-- Name: fk_spitemobra_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spitemobra
+    ADD CONSTRAINT fk_spitemobra_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3257 (class 2606 OID 28030)
+-- Name: fk_spitemobra_sppoligono; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spitemobra
+    ADD CONSTRAINT fk_spitemobra_sppoligono FOREIGN KEY (fkpoligono) REFERENCES sppoligono(pkpoligono);
+
+
+--
+-- TOC entry 3258 (class 2606 OID 28035)
+-- Name: fk_spordentrabajo_spgestion; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spordentrabajo
+    ADD CONSTRAINT fk_spordentrabajo_spgestion FOREIGN KEY (fkgestion) REFERENCES spgestion(pkgestion);
+
+
+--
+-- TOC entry 3259 (class 2606 OID 28040)
+-- Name: fk_sppartediario_spequipo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppartediario
+    ADD CONSTRAINT fk_sppartediario_spequipo FOREIGN KEY (fkequipo) REFERENCES spequipo(pkequipo);
+
+
+--
+-- TOC entry 3260 (class 2606 OID 28045)
+-- Name: fk_sppartediario_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppartediario
+    ADD CONSTRAINT fk_sppartediario_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3261 (class 2606 OID 28050)
+-- Name: fk_sppartediario_sppersonal; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppartediario
+    ADD CONSTRAINT fk_sppartediario_sppersonal FOREIGN KEY (fkoperador) REFERENCES sppersonal(pkpersonal);
+
+
+--
+-- TOC entry 3262 (class 2606 OID 28055)
+-- Name: fk_sppartediario_sppersonal_02; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppartediario
+    ADD CONSTRAINT fk_sppartediario_sppersonal_02 FOREIGN KEY (fkayudante) REFERENCES sppersonal(pkpersonal);
+
+
+--
+-- TOC entry 3263 (class 2606 OID 28060)
+-- Name: fk_sppartediario_spturno; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppartediario
+    ADD CONSTRAINT fk_sppartediario_spturno FOREIGN KEY (fkturno) REFERENCES spturno(pkturno);
+
+
+--
+-- TOC entry 3264 (class 2606 OID 28065)
+-- Name: fk_sppersonal_spcargo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppersonal
+    ADD CONSTRAINT fk_sppersonal_spcargo FOREIGN KEY (fkcargo) REFERENCES spcargo(pkcargo);
+
+
+--
+-- TOC entry 3265 (class 2606 OID 28070)
+-- Name: fk_sppersonal_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppersonal
+    ADD CONSTRAINT fk_sppersonal_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3266 (class 2606 OID 28075)
+-- Name: fk_sppoligono_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sppoligono
+    ADD CONSTRAINT fk_sppoligono_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3267 (class 2606 OID 28080)
+-- Name: fk_sptransfequipo_spgestion; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfequipo
+    ADD CONSTRAINT fk_sptransfequipo_spgestion FOREIGN KEY (fkgestion) REFERENCES spgestion(pkgestion);
+
+
+--
+-- TOC entry 3268 (class 2606 OID 28085)
+-- Name: fk_sptransfequipo_spordentrabajo_02; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfequipo
+    ADD CONSTRAINT fk_sptransfequipo_spordentrabajo_02 FOREIGN KEY (fkordendestino) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3269 (class 2606 OID 28090)
+-- Name: fk_sptransfpersonal_spgestion; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfpersonal
+    ADD CONSTRAINT fk_sptransfpersonal_spgestion FOREIGN KEY (fkgestion) REFERENCES spgestion(pkgestion);
+
+
+--
+-- TOC entry 3270 (class 2606 OID 28095)
+-- Name: fk_sptransfpersonal_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfpersonal
+    ADD CONSTRAINT fk_sptransfpersonal_spordentrabajo FOREIGN KEY (fkordenorigen) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3271 (class 2606 OID 28100)
+-- Name: fk_sptransfpersonal_spordentrabajo_02; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY sptransfpersonal
+    ADD CONSTRAINT fk_sptransfpersonal_spordentrabajo_02 FOREIGN KEY (fkordendestino) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3272 (class 2606 OID 28105)
+-- Name: fk_spturno_spordentrabajo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY spturno
+    ADD CONSTRAINT fk_spturno_spordentrabajo FOREIGN KEY (fkordentrabajo) REFERENCES spordentrabajo(pkordentrabajo);
+
+
+--
+-- TOC entry 3276 (class 2606 OID 31768)
+-- Name: fk_usuario_grupo; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT fk_usuario_grupo FOREIGN KEY (fkgrupousuario) REFERENCES grupo(pkgrupo);
+
+
+--
+-- TOC entry 3235 (class 2606 OID 25035)
+-- Name: grupos_adm_login_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY grupos
+    ADD CONSTRAINT grupos_adm_login_fkey FOREIGN KEY (adm_login) REFERENCES administrador(adm_login);
+
+
+--
+-- TOC entry 3239 (class 2606 OID 25073)
+-- Name: mod_grup_grup_cod_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY mod_grup
+    ADD CONSTRAINT mod_grup_grup_cod_fkey FOREIGN KEY (grup_cod) REFERENCES grupos(grup_cod);
+
+
+--
+-- TOC entry 3240 (class 2606 OID 25078)
+-- Name: mod_grup_mod_cod_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY mod_grup
+    ADD CONSTRAINT mod_grup_mod_cod_fkey FOREIGN KEY (mod_cod) REFERENCES modulos(mod_cod);
+
+
+--
+-- TOC entry 3238 (class 2606 OID 25063)
+-- Name: modulos_adm_login_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY modulos
+    ADD CONSTRAINT modulos_adm_login_fkey FOREIGN KEY (adm_login) REFERENCES administrador(adm_login);
+
+
+--
+-- TOC entry 3237 (class 2606 OID 25050)
+-- Name: persona_adm_login_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY persona
+    ADD CONSTRAINT persona_adm_login_fkey FOREIGN KEY (adm_login) REFERENCES administrador(adm_login);
+
+
+--
+-- TOC entry 3236 (class 2606 OID 25045)
+-- Name: persona_grup_cod_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY persona
+    ADD CONSTRAINT persona_grup_cod_fkey FOREIGN KEY (grup_cod) REFERENCES grupos(grup_cod);
+
+
+--
+-- TOC entry 3234 (class 2606 OID 23881)
+-- Name: propietario_amig_ci_fkey; Type: FK CONSTRAINT; Schema: public; Owner: grupo06
+--
+
+ALTER TABLE ONLY propietario
+    ADD CONSTRAINT propietario_amig_ci_fkey FOREIGN KEY (amig_ci) REFERENCES amigo(amig_ci);
+
+
+--
+-- TOC entry 3453 (class 0 OID 0)
+-- Dependencies: 7
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2017-04-24 14:54:03
+
+--
+-- PostgreSQL database dump complete
+--
+
