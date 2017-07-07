@@ -20,20 +20,19 @@
 	
 
 		<div class="form-group">
-			<input type="hidden" id = "EQPkEquipo" value = "<?= ($edicion) ? $equipo->pkequipo : '0';?>"/>
-			<label class="col-sm-3 control-label" for="EQCodigo">Codigo de Equipo</label>
+			<label class="col-sm-3 control-label" for="EQTipo">Tipo de Equipo</label>
 			<div class="col-sm-9">
-				<select class="form-control" name="EQCodigo" id="EQCodigo">
+				<select class="form-control" onchange="selectedModelo()" name="EQTipo" id="EQTipo">
 					<!--cargamos el select con los tipos llegados	-->
 					<?php
-							foreach($codigos as $codigo){
+							foreach($tipos as $tipo){
 								if($edicion){
-									if($codigo->pkcodigo == $equipo->fkcodigo)
-										echo "<option value=\"" . $codigo->pkcodigo . "\" selected >" . $codigo->codigo . "</option>";
+									if($tipo->pkeqtipo == $equipo->fktipoequipo)
+										echo "<option value=\"" . $tipo->pkeqtipo . "\" selected >".$tipo->codigo.' - ' . $tipo->descripcion . "</option>";
 									else
-										echo "<option value=\"" . $codigo->pkcodigo . "\" >" . $codigo->codigo . "</option>";									
+										echo "<option value=\"" . $tipo->pkeqtipo . "\" >" . $tipo->codigo . ' - ' . $tipo->descripcion . "</option>";									
 								}else{
-									echo "<option value=\"" . $codigo->pkcodigo . "\" >" . $codigo->codigo . "</option>";
+									echo "<option value=\"" . $tipo->pkeqtipo . "\" >" . $tipo->codigo . ' - ' . $tipo->descripcion . "</option>";
 								}
 
 							}
@@ -43,10 +42,37 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-sm-3 control-label" for="EQFechaIngreso">Fecha Ingreso</label>
-			<div   class="col-sm-3" >
-				<input type="text" class="form-control" name="EQFechaIngreso" id="EQFechaIngreso" data-date-format="DD-MM-YYYY" value= "<?= ($edicion) ? $equipo->fechaingreso : date('d-m-Y'); ?>"/>
+			<label class="col-sm-3 control-label" for="EQModelo">Modelo de Equipo</label>
+			<div class="col-sm-9">
+				<select class="form-control" onchange="selectedCodigo()" name="EQModelo" id="EQModelo">
+					<!--cargamos el select con los cargos modelos	-->
+					<?php
+						if($edicion){
+							foreach($modelos as $modelo){
+								if($edicion){
+									if($modelo->pkeqmodelo == $equipo->fkmodelo)
+										echo "<option value=\"" . $modelo->pkeqmodelo . "\" selected >" . $modelo->codigo . ' - ' . $modelo->descripcion . "</option>";
+									else
+										echo "<option value=\"" . $modelo->pkeqmodelo . "\" >" . $modelo->codigo . ' - ' . $modelo->descripcion . "</option>";									
+								}else{
+									echo "<option value=\"" . $modelo->pkeqmodelo . "\" >" . $modelo->codigo . ' - ' . $modelo->descripcion . "</option>";
+								}
+							}							
+						}
+					?>	
+				</select>
 			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQCodigo">Codigo</label>
+			<div class="col-sm-3">
+				<input type="hidden" id = "EQPkEquipo" value = "<?= ($edicion) ? $equipo->pkequipo : '0';?>"/>
+				<input class="form-control" maxlength="9" name="EQCodigo" id="EQCodigo" 
+				data-inputmask="'mask': '**-****'"
+				maxlength="9" placeholder="Code" value= "<?= ($edicion) ? $equipo->codigo : '';?>"/>
+			</div>
+
 			<label class="col-sm-3 control-label" for="EQContrato">Contrato</label>
 			<div class="col-sm-3">
 				<select class="form-control" name="EQContrato" id="EQContrato">
@@ -69,6 +95,14 @@
 			</div>
 		</div>
 	
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQFechaIngreso">Fecha Ingreso</label>
+			<div   class="col-sm-3" >
+				<input type="text" class="form-control" name="EQFechaIngreso" id="EQFechaIngreso" data-date-format="DD-MM-YYYY" value= "<?= ($edicion) ? $equipo->fechaingreso : date('d-m-Y'); ?>"/>
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="EQOrdenTrabajo">Orden de Trabajo</label>
 			<div class="col-sm-3">

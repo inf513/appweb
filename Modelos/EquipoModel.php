@@ -4,7 +4,8 @@ require_once "Negocio/FuncionesComunes.php";
 class EquipoModel extends ModelBase{
 
 	public $pkEquipo;
-	public $fkCodigo;
+	public $fkTipoEquipo;
+	public $fkModelo;
 	public $codigo;
 	public $fkTipoContrato;
 	public $fechaIngreso;
@@ -17,13 +18,15 @@ class EquipoModel extends ModelBase{
 		parent::__construct();
 		$this->tabla = 'spequipo';
 		$pkEquipo = 0;
-		$fkCodigo = 0;
+		$fkTipoEquipo = 0;
+		$fkModelo = 0;
 		$codigo = '';
 		$fkTipoContrato = 0;
 		$fechaIngreso = '1990-01-01';
 		$fkOrdenTrabajo = 0;
 		$descripcion = '';
 	}
+
 	protected function getParametrosWhere(){
 			$parametros = array();
 			$parametros[":pkequipo"] = $this->pkEquipo;
@@ -31,7 +34,8 @@ class EquipoModel extends ModelBase{
 	}
 	protected function getParametros(){
 		$parametros = array();			
-		$parametros[":fkcodigo"] = $this->fkCodigo;
+		$parametros[":fktipoequipo"] = $this->fkTipoEquipo;
+		$parametros[":fkmodelo"] = $this->fkModelo;
 		$parametros[":codigo"] = $this->codigo;
 		$parametros[":fktipocontrato"] = $this->fkTipoContrato;
 		$parametros[":fechaingreso"] = $this->fechaIngreso;
@@ -42,23 +46,24 @@ class EquipoModel extends ModelBase{
 	}
 	protected function getSqlListar(){
 		$consulta = " SELECT ";
-		$consulta .= " e.pkEquipo, e.fkcodigo, c.codigo, ";
+		$consulta .= " e.pkEquipo, e.fkTipoEquipo, e.fkModelo, e.codigo,  ";
 		$consulta .= " e.fkTipoContrato, e.fechaIngreso, e.fkOrdenTrabajo, ";
 		$consulta .= " e.descripcion, o.data, o.nombre ";
 		$consulta .= " FROM spequipo e ";
-		$consulta .= " 	INNER JOIN spcodigo c ON c.pkcodigo = e.fkcodigo ";
+		$consulta .= " 	INNER JOIN speqtipo t ON e.fkTipoEquipo = t.pkEqTipo ";
+		$consulta .= " 	INNER JOIN speqmodelo m ON e.fkModelo = m.pkEqModelo ";
 		$consulta .= " 	INNER JOIN spordentrabajo o ON e.fkOrdenTrabajo = o.pkOrdenTrabajo ";
 
-		return $consulta;
+		return $consulta;		
 	}
-	protected function getIdTabla(){
-		return $this->pkEquipo;
-	}
-	protected function modificarDatos($filas){
+ 	protected function modificarDatos($filas){
 		foreach ($filas as $value) {
 			$value->fechaingreso = FuncionesComunes::formatearFormatoDDMMYYYY($value->fechaingreso);
 		}
 		return $filas;
+	}
+	protected function getIdTabla(){
+		return $this->pkEquipo;
 	}
 }
 ?>

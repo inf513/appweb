@@ -45,14 +45,17 @@ function guardar(){
 
 	msg = validar();
 	if(msg.length <= 0 ){
-		var cod = document.getElementById("EQCodigo");
+		var t = document.getElementById("EQTipo");
+		var m = document.getElementById("EQModelo");
 		var c = document.getElementById("EQContrato");
+		
 		$("#principal").load(url, {
 			controlador		: "Equipo",
 			accion			: "guardar",
 			pkEquipo		: document.getElementById("EQPkEquipo").value,
-			fkCodigo		: cod.options[cod.selectedIndex].value,
-			codigo 			: cod.options[cod.selectedIndex].text,
+			fkTipoEquipo	: t.options[t.selectedIndex].value,
+			fkModelo		: m.options[m.selectedIndex].value,
+			codigo 			: document.getElementById("EQCodigo").value,
 			fkTipoContrato 	: c.options[c.selectedIndex].value,
 			fechaIngreso	: document.getElementById("EQFechaIngreso").value,
 			fkOrdenTrabajo 	: document.getElementById("EQIDOt").value,
@@ -66,7 +69,6 @@ function guardar(){
 }
 function validar(){
 	msg = "";
-	
 	if(document.getElementById("EQIDOt").value <= 0){
 		msg += "Ingrese codigo de Orden de Trabajo </br>";
 	}
@@ -75,9 +77,18 @@ function validar(){
 		msg += "Ingrese descripcion de actividad </br>";
 	}
 
-	var cod = document.getElementById("EQCodigo");
-	if(cod.options[cod.selectedIndex].value < 0){
-		msg += "Seleccione Codigo de equipo </br>";
+	if((document.getElementById("EQCodigo").value).length <= 0){
+		msg += "Ingrese Codigo de Equipo </br>";
+	}
+
+	var t = document.getElementById("EQTipo");
+	if(t.options[t.selectedIndex].value < 0){
+		msg += "Seleccione Tipo de Equipo </br>";
+	}
+
+	var m = document.getElementById("EQModelo");
+	if(m.options[m.selectedIndex].value < 0){
+		msg += "Seleccione Modelo de Equipo </br>";
 	}
 
 	var c = document.getElementById("EQContrato");
@@ -150,4 +161,73 @@ function salidafoco(){
 					}
 				}, "json"
 		  );
+}
+
+function selectedModelo(){
+	var equipos = document.getElementById("EQTipo");
+	var pkeqtipo = equipos.options[equipos.selectedIndex].value;
+	$.post(
+				url, 
+				{ 
+				  controlador: "Equipo",
+				  accion: "getModelos",
+				  tipo : pkeqtipo
+				},
+				function(datos){
+					
+					console.log("status : " + datos.status);
+
+					if(datos.status == "error"){
+						cargarControles(null);
+					}else{
+						cargarControles(datos.modelos);
+					}
+					selectedCodigo();
+				}, "json"
+		  );
+
+}
+
+function cargarControles(modelos){
+	if(modelos !== null){
+		var smodelo = document.getElementById('EQModelo');
+		smodelo.length = 0;
+		for (var i = 0; i < modelos.length; i++){
+			smodelo[i] = new Option(modelos[i].codigo + ' - ' + modelos[i].descripcion, modelos[i].pkeqmodelo);
+		}
+		smodelo.selectedIndex = -1;
+	}else{
+		document.getElementById('EQModelo').length = 0;
+	}
+}
+
+function selectedCodigo(){
+	var tipos = document.getElementById("EQTipo");
+	var modelos = document.getElementById("EQModelo");
+	var aux = "";
+	
+	var data = document.getElementById("EQCodigo").value;
+	data = data.split("-");
+	console.log(data);
+	if(tipos.selectedIndex >= 0){
+		aux = tipos.options[tipos.selectedIndex].text;
+		aux = aux.split(" ");	
+		document.getElementById("EQCodigo").value = aux[0];
+
+	}else{
+		document.getElementById("EQCodigo").value = "";
+	}
+
+	var data = document.getElementById("EQCodigo").value;
+	data = data.split("-");
+	if(modelos.selectedIndex >= 0){
+		aux = modelos.options[modelos.selectedIndex].text;
+		aux = aux.split(" ");
+		document.getElementById("EQCodigo").value = data[0] + "-" + 
+													aux[0] + "-  ";
+
+	}else{
+		document.getElementById("EQCodigo").value = data[0] + "-" + 
+													"  -  ";
+	}
 }

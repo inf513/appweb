@@ -1,86 +1,68 @@
 <?php
 require_once "Modelos/OrdenTrabajoModel.php";
+require_once "Modelos/EqModeloModel.php";
+require_once "Modelos/EqTipoModel.php";
 require_once "Modelos/EquipoModel.php";
 
-require_once "Modelos/CodigoModel.php";
-require_once "Modelos/EstadoEquipoModel.php";
 class EquipoController extends ControllerBase
 {
+	private $eqModel = null;
 	private $ot = null;
-	private $codigo = null;
+	private $eqTipo = null;
 	private $equipo = null;
 
 	public function __construct(){
 		parent::__construct();
 
-		$this->codigo = new CodigoModel();
+		$this->eqModel = new EqModeloModel();
 		$this->ot = new OrdenTrabajoModel(); 
+		$this->eqTipo = new EqTipoModel();
 		$this->equipo = new EquipoModel();
 	}
 	public function listar()
 	{
 		$listado = $this->equipo->listar("");
-		$this->mostrar($listado, null, 'EquipoListView.php');
+
+		$this->mostrar($listado, null, null, 'EquipoListView.php');
 	}
 	public function editar(){
 		$this->equipo->pkEquipo = $_POST['pkEquipo'];
 
-		$eq = $this->equipo->findOne("pkEquipo", $this->equipo->pkEquipo);
+		$eq = $this->equipo->findOne("pkequipo", $this->equipo->pkEquipo);
+		
+		#ademas enviamos la lista de tipos de equipos
+		$tipos = $this->eqTipo->listar("");
 
-		#Ademas enviamos la lista de codigos
-		$codigos = $this->codigo->listar("");
+		#ademas enviamos los modelos de equipos
+		$modelos = $this->eqModel->listar(" fkeqtipo = " . $eq->fktipoequipo);
 
-		$this->mostrar($eq, $codigos, 'EquipoView.php');
+		$this->mostrar($eq, $tipos, $modelos, 'EquipoView.php');
 	}
 	public function nuevo(){
 		$listar = null;
 
-		#Solo enviamos los codigos
-		$codigos = $this->codigo->listar("");
+		#Solo enviamos los tipos de equipos
+		$tipos = $this->eqTipo->listar("");
 
-		$this->mostrar($listar, $codigos, 'EquipoView.php');
+		#los modelos seran a peticion del tipo de equipo
+
+		$this->mostrar($listar, $tipos, null, 'EquipoView.php');
 	}
 
 	public function guardar()
 	{
 		$this->equipo->pkEquipo 		= $_POST['pkEquipo'];
-		$this->equipo->fkCodigo 		= $_POST['fkCodigo'];
+		$this->equipo->fkTipoEquipo 	= $_POST['fkTipoEquipo'];
+		$this->equipo->fkModelo 		= $_POST['fkModelo'];
 		$this->equipo->codigo 			= $_POST['codigo'];
-		$this->equipo->fkTipoContrato	= $_POST['fkTipoContrato'];		
+		$this->equipo->fkTipoContrato	= $_POST['fkTipoContrato'];
 		$this->equipo->fechaIngreso 	= $_POST['fechaIngreso'];
 		$this->equipo->fkOrdenTrabajo 	= $_POST['fkOrdenTrabajo'];
 		$this->equipo->descripcion 		= $_POST['descripcion'];
 		
-		$this->equipo->fechaIngreso = FuncionesComunes::formatearFormatoYYYYMMDD($this->equipo->fechaIngreso);
-
-		/**
-		 * cada que un equipo se guarda se crea un estado de de equipo por defecto
-		 */
-		$this->guardarEstado($this->equipo->pkEquipo, $this->equipo->fechaIngreso);
-
 		$this->equipo->guardarModel();
 
 		$this->listar();
-	}
-	private function guardarEstado($pkEquipo, $fecha){
-		$modelo = new EstadoEquipoModel();
-		$modelo->fkEquipo = $pkEquipo;
-		$modelo->motivo   = "NUEVA ADQUISICION";
-		$modelo->estado   = "NUEVO";
-		$modelo->fecha    = $fecha;
-		# VERIFICAR ESTO
-		
-		$modelo->personal = "limbert";		
-
-		$verificar  = $modelo->findOne("fkequipo",$pkEquipo);
-		if(is_null($verificar)){
-			$modelo->pk = 0;
-		}else{
-			$modelo->pk = 1;
-		}
-
-		$modelo->guardarModel();
-
 	}
 	public function eliminar()
 	{
@@ -104,11 +86,34 @@ class EquipoController extends ControllerBase
 			echo json_encode($orden);
 		}
 	}
+	/**
+	 * Metodo que lista los modelos de un tipo de equipo
+	 */
+	public function getModelos(){
+		$this->eqModel->fkEqTipo = $_POST['tipo'];
+		#echo "tipo llego : " . $this->eqModel->fkEqTipo;
+		$modelos = $this
+						->eqModel
+						->listar(" fkeqtipo = " . $this->eqModel->fkEqTipo);
+
+
+		if(count($modelos) > 0){
+			$rs = array();
+			$rs["modelos"] = $modelos;
+			$rs["status"] = "success";
+			echo json_encode($rs);
+		}else{
+			$rs = array();
+			$rs['status'] = "error";
+			echo json_encode($rs);
+		}
+	}
 	# metodos privados
-	private function mostrar($listado, $codigos, $vista){
+	private function mostrar($listado, $tipos, $modelos, $vista){
 		# aqui ingresamos todos los datos que queremos enviar
 		$data['listado'] = $listado;
-		$data['codigos'] = $codigos;
+		$data['tipos'] = $tipos;
+		$data['modelos'] = $modelos;
 		$this->show($vista, $data);
 	}
 }
