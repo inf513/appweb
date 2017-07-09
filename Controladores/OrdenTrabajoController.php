@@ -19,17 +19,17 @@ class OrdenTrabajoController extends ControllerBase
 	{
 		$listado = $this->ot->listar("");
 	
-		$this->mostrar($listado, 'OrdenTrabajoListView.php');
+		$this->mostrar($listado, 'OrdenTrabajoListView.twig');
 	}
 	public function editar(){
 		$this->ot->pkOrdenTrabajo = $_POST['pkOrdenTrabajo'];
 		$ot = $this->ot->findOne("pkOrdenTrabajo", $this->ot->pkOrdenTrabajo);
 	
-		$this->mostrar($ot, 'OrdenTrabajoView.php');
+		$this->mostrar($ot, 'OrdenTrabajoView.twig');
 	}
 	public function nuevo(){
 		$listar = null;
-		$this->mostrar($listar, 'OrdenTrabajoView.php');
+		$this->mostrar($listar, 'OrdenTrabajoView.twig');
 	}
 	private function obtenerGestionActiva(){
 
@@ -71,6 +71,8 @@ class OrdenTrabajoController extends ControllerBase
 	private function mostrar($listado, $vista){
 		# aqui ingresamos todos los datos que queremos enviar
 		$data['listado'] = $listado;
+		$data['codgestion'] = $_SESSION['codgest'];
+		$data['pkgestion']  = $_SESSION['pkGestion'];
 		$this->show($vista, $data);
 	}
 	private function toString($listado){

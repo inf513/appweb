@@ -23,7 +23,7 @@ class EquipoController extends ControllerBase
 	{
 		$listado = $this->equipo->listar("");
 
-		$this->mostrar($listado, null, null, 'EquipoListView.php');
+		$this->mostrar($listado, null, null, 'EquipoListView.twig');
 	}
 	public function editar(){
 		$this->equipo->pkEquipo = $_POST['pkEquipo'];
@@ -36,7 +36,7 @@ class EquipoController extends ControllerBase
 		#ademas enviamos los modelos de equipos
 		$modelos = $this->eqModel->listar(" fkeqtipo = " . $eq->fktipoequipo);
 
-		$this->mostrar($eq, $tipos, $modelos, 'EquipoView.php');
+		$this->mostrar($eq, $tipos, $modelos, 'EquipoView.twig');
 	}
 	public function nuevo(){
 		$listar = null;
@@ -46,7 +46,7 @@ class EquipoController extends ControllerBase
 
 		#los modelos seran a peticion del tipo de equipo
 
-		$this->mostrar($listar, $tipos, null, 'EquipoView.php');
+		$this->mostrar($listar, $tipos, null, 'EquipoView.twig');
 	}
 
 	public function guardar()

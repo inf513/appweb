@@ -12,21 +12,23 @@ class AutenticacionController extends ControllerBase
 	public function login()
 	{
 		#verificamos si tenemos iniciada una session
+		
 		session_start();
-		if(isset($_SESSION["nickname"])){			
-			if($this->loginIsValid($_SESSION["nickname"], $_SESSION["password"])){
+		if(isset($_SESSION["nickname"])){
+			
+			if($this->loginIsValid($_SESSION["nickname"], $_SESSION["password"])){				
 				session_write_close();
 				//echo "[AutenticacionController.login] Session sin cerrar";
 				$this->iniciarSession();
 			}else{
 				session_write_close();
 				//echo "[AutenticacionController.login] Usuario no valido";
-				$this->mostrar("AutenticacionView.php", null);
+				$this->mostrar("AutenticacionView.twig", null);
 			}
-		}else{
+		}else{			
 			session_write_close();
 			//echo "[AutenticacionController.login] Session no encontrada";
-			$this->mostrar("AutenticacionView.php", null);
+			$this->mostrar("AutenticacionView.twig", null);
 		}
 	}
 	/**
@@ -89,19 +91,20 @@ class AutenticacionController extends ControllerBase
 # -------------------------------------------------------------------
 # -------------------------------------------------------------------
 	public function iniciarSession(){
+		
 		session_start();
-		if(!isset($_SESSION["nickname"])){  # no esta definida la session
+		if(!isset($_SESSION["nickname"])){  # no esta definida la session			
 			$_SESSION["nickname"] = $_POST["nickname"];
 			$_SESSION["password"] = $_POST["password"];
 
 			$menu = $this->getMenu($_SESSION["nickname"], $_SESSION["password"]);
-			$this->mostrarVistaMenus($menu, "PrincipalView.php");
+			$this->mostrarVistaMenus($menu, "PrincipalView.twig");
 			//$this->mostrar($menu, "prueba.php");
-		}else{
+		}else{			
 			# session esta definida y mostramos el munu
 			//echo "[PrincipalController.iniciarSession] session definida!!";
 			$menu = $this->getMenu($_SESSION["nickname"], $_SESSION["password"]);
-			$this->mostrarVistaMenus($menu, "PrincipalView.php");
+			$this->mostrarVistaMenus($menu, "PrincipalView.twig");
 			//$this->mostrar($menu, "pruebaView.php");
 			# si habillito esto despues de dar F5 a la pagina 
 			# cerrara la session y hara que inicie la sesion de nuevo
@@ -150,7 +153,9 @@ class AutenticacionController extends ControllerBase
 	 */
 	private function mostrarVistaMenus($menus, $vista){
 		# aqui ingresamos todos los datos que queremos enviar
-		$data['menus'] = $menus;
+		
+		$data['menus']    = $menus;
+		$data['nickname'] = $_SESSION["nickname"];
 		$this->show($vista, $data);
 	}
 

@@ -6,7 +6,7 @@
 	<div class="form-group">
 		<div class="col-sm-4"></div>
 		<div class="col-sm-4">
-			<button type="button" class="btn btn-primary btn-block"" name="btnnuevo" id="idbtnNuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo Personal</button>	
+			<button type="button" class="btn btn-primary btn-block" name="btnnuevo" id="idbtnNuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo Personal</button>
 		</div>
 	</div>
 </div>

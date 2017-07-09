@@ -1,4 +1,4 @@
-	<script type="text/javascript" src="js/improductiva.js"></script>
+<script type="text/javascript" src="js/improductiva.js"></script>
 <!--AQUI SOLO TENGO NUEVE COLUMNAS PARA REPARTIR-->
 	<div class="row">		
 		<div class="col-sm-12">

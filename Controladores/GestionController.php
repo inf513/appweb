@@ -14,19 +14,19 @@ class GestionController extends ControllerBase
 	{
 		$gestiones = $this->gestion->listar("");
 		
-		$this->mostrar($gestiones, 'GestionListView.php');
+		$this->mostrar($gestiones, 'GestionListView.twig');
 	}
 	public function editar(){
 
 		$this->gestion->pkGestion = $_POST['pkGestion'];
 		$g = $this->gestion->findOne("pkGestion", $this->gestion->pkGestion);
 
-		$this->mostrar($g, 'GestionView.php');
+		$this->mostrar($g, 'GestionView.twig');
 	}
 	public function nuevo(){
 		$listar = null;
 
-		$this->mostrar($listar, 'GestionView.php');
+		$this->mostrar($listar, 'GestionView.twig');
 	}
 
 	public function guardar()

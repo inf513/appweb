@@ -23,7 +23,7 @@ class ItemObraController extends ControllerBase
 	{
 		$listado = $this->itemObra->listar("");
 	
-		$this->mostrar($listado, null, null, 'ItemObraListView.php');
+		$this->mostrar($listado, null, null, 'ItemObraListView.twig');
 	}
 	public function editar(){
 
@@ -41,7 +41,7 @@ class ItemObraController extends ControllerBase
 						->actividad
 						->listar(" fkordentrabajo = " . $io->fkordentrabajo);
 
-		$this->mostrar($io, $poligonos, $actividades, 'ItemObraView.php');
+		$this->mostrar($io, $poligonos, $actividades, 'ItemObraView.twig');
 	}
 	public function nuevo(){
 		$listar = null;
@@ -54,7 +54,7 @@ class ItemObraController extends ControllerBase
 		#$actividades = $this->actividad->listar("");
 		$actividades = null;
 
-		$this->mostrar($listar, $poligonos, $actividades, 'ItemObraView.php');
+		$this->mostrar($listar, $poligonos, $actividades, 'ItemObraView.twig');
 	}
 
 	public function guardar()

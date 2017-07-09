@@ -24,7 +24,7 @@ class PersonalController extends ControllerBase
 		try {
 			$listado = $this->personal->listar("");
 		
-			$this->mostrar($listado, null, 'PersonalListView.php');
+			$this->mostrar($listado, null, 'PersonalListView.twig');
 		} catch (Exception $e) {
 			echo "[PersonalController.listar] " . $e->getMessage();
 		}
@@ -39,7 +39,7 @@ class PersonalController extends ControllerBase
 		#ademas enviamos la lista de cargos
 		$cargos = $this->cargo->listar("");
 
-		$this->mostrar($persona, $cargos, 'PersonalView.php');
+		$this->mostrar($persona, $cargos, 'PersonalView.twig');
 	}
 
 	public function nuevo(){
@@ -48,7 +48,7 @@ class PersonalController extends ControllerBase
 		#ademas enviamos la lista de cargos
 		$cargos = $this->cargo->listar("");
 
-		$this->mostrar($listar, $cargos, 'PersonalView.php');
+		$this->mostrar($listar, $cargos, 'PersonalView.twig');
 	}
 
 	public function guardar()

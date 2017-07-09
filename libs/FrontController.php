@@ -9,7 +9,6 @@ class FrontController
 			require_once 'libs/Config.php';
 			require_once 'libs/SPDO.php';
 			
-			require_once 'libs/View.php';
 			require_once 'libs/ControllerBase.php';
 			require_once 'libs/ModelBase.php';
 
@@ -37,7 +36,7 @@ class FrontController
 			}else{
 				die('Controlador no existe - 404 No Found');
 			}
-
+			
 			// si no existe la clase y su accion , lanzamos un error 404
 			if (is_callable(array($controllerName, $actionName), true, $respuesta)== false) {			
 				trigger_error($controllerName . '->' . $actionName . ' [$respuesta][No existe]'  , E_USER_NOTICE);
@@ -45,7 +44,8 @@ class FrontController
 			}
 			// si todo estas bien creamos una instacia controlador
 			$controller = new $controllerName();
-			$controller->$actionName();			
+			$controller->$actionName();
+			
 		} catch (Exception $e) {
 			echo "[FrontController.main]" . $e->getMessage();			
 		}

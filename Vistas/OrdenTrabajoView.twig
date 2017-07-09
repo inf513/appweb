@@ -1,5 +1,5 @@
 <script type="text/javascript" src="js/ordenTrabajo.js"></script>
-<!--AQUI SOLO TENGO 12 COLUMNAS PARA REPARTIR-->
+<!--AQUI SOLO TENGO 12 COLUMNAS PARA REPARTIR -->
 	<div class="row">
 		<div class="col-sm-12">
 			<center>
@@ -9,20 +9,16 @@
 	</div>
 	
 	<form class="form-horizontal" role="form">
-
-	<?php 
-	$edicion = false;
-		if(isset($listado)){
-			$edicion = true;
-			$ot = $listado;
-		} 
-	?>
-	
+		{% set edicion = false %}
+		{% if listado is not null %}
+			{% set edicion = true %}
+			{% set ot = listado %}
+		{% endif %}
 
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="OTPkOrdenTrabajo">ID Orden Trabajo</label>
-			<div   class="col-sm-3" >
-				<input type="text" class="form-control" name="OTPkOrdenTrabajo" id="OTPkOrdenTrabajo" disabled value= "<?= ($edicion) ? $ot->pkordentrabajo : '0'; ?>"/>
+			<div   class="col-sm-3">
+				<input type="text" class="form-control" name="OTPkOrdenTrabajo" id="OTPkOrdenTrabajo" disabled value= "{{ edicion ? ot.pkordentrabajo : 0 }}"/>
 			</div>
 			<div class="col-sm-6"></div>
 		</div>
@@ -30,29 +26,29 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="OTCodigo">Codigo</label>
 			<div class="col-sm-2">
-				<input type="text" maxlength="3" class="form-control" name="OTCodigo" id="OTCodigo" placeholder="001" onKeyUp="this.value = this.value.toUpperCase();" value= "<?= ($edicion) ? $ot->codigo : '';?>"/>
+				<input type="text" maxlength="3" class="form-control" name="OTCodigo" id="OTCodigo" placeholder="001" onKeyUp="this.value = this.value.toUpperCase();" value= "{{ edicion ? ot.codigo : '' }}"/>
 			</div>
 			<div class="col-sm-1">
 				<p class="form-control-static">-</p>
 			</div>
 			<div class="col-sm-1">
-				<input type="text" class="form-control" name="OTGestion" id="OTGestion" disabled value= "<?= ($edicion) ? $ot->codgest : $_SESSION['codgest']; ?>"/>
+				<input type="text" class="form-control" name="OTGestion" id="OTGestion" disabled value= "{{ edicion ? ot.codgest : codgestion }}"/>
 			</div>
 			<div class="col-sm-5">
-				<input type="hidden" class="form-control" name="IDGestion" id="IDGestion" value= "<?= ($edicion) ? $ot->fkgestion : $_SESSION['pkGestion']; ?>"/>
+				<input type="hidden" class="form-control" name="IDGestion" id="IDGestion" value= "{{ edicion ? ot.fkgestion : pkgestion }}"/>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="OTNombre">Nombre</label>
 			<div class="col-sm-9">
-				<input type="text" maxlength="50" class="form-control" name="OTNombre" id="OTNombre" placeholder="Nombre de Orden de Trabajo" onKeyUp="this.value=this.value.toUpperCase();" value= "<?= ($edicion) ? $ot->nombre : '';?>"/>
+				<input type="text" maxlength="50" class="form-control" name="OTNombre" id="OTNombre" placeholder="Nombre de Orden de Trabajo" onKeyUp="this.value=this.value.toUpperCase();" value= "{{ edicion ? ot.nombre : '' }}"/>
 			</div>			
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="OTSupervisor">Supervisor</label>
 			<div class="col-sm-9">
-				<input type="text" maxlength="50" class="form-control" name="OTSupervisor" id="OTSupervisor" placeholder="Nombre completo del supervisor de obra" onKeyUp="this.value=this.value.toUpperCase();" value= "<?= ($edicion) ? $ot->supervisor : '';?>"/>
+				<input type="text" maxlength="50" class="form-control" name="OTSupervisor" id="OTSupervisor" placeholder="Nombre completo del supervisor de obra" onKeyUp="this.value=this.value.toUpperCase();" value= "{{ edicion ? ot.supervisor : '' }}"/>
 			</div>			
 		</div>
 
@@ -66,33 +62,29 @@
 						min="0" 
 						id="OTAreaEstimada"
 						placeholder="0.00" 
-						onKeyUp="this.value=this.value.toUpperCase();" 
-						value= "<?= ($edicion) ? $ot->areaestimada : 0;?>"/>
-			</div>			
+						onKeyUp="this.value=this.value.toUpperCase();"
+						value= "{{ edicion ? ot.areaestimada : 0 }}"/>
+			</div>
 		</div>
-
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="OTEstado">Estado</label>
 			<div class="col-sm-9">
 				<select class="form-control" name="OTEstado" id="OTEstado">
-				<?php
-					if($edicion){
-						if($ot->estado == 'T'){
-							echo "<option value='T' selected >ACTIVO</option>";
-							echo "<option value='F'>INACTIVO</option>";
-						}else{
-							echo "<option value='T'>ACTIVO</option>";
-							echo "<option value='F' selected >INACTIVO</option>";
-						}
-					}else{
-						echo "<option value='T'>ACTIVO</option>";
-						echo "<option value='F'>INACTIVO</option>";
-					}
-				?>
+					{% if edicion %}
+						{% if ot.estado == 'T' %}
+							<option value='T' selected >ACTIVO</option>
+							<option value='F'>INACTIVO</option>
+						{% else %}
+							<option value='T'>ACTIVO</option>
+							<option value='F' selected >INACTIVO</option>
+						{% endif %}
+					{% else %}
+						<option value='T'>ACTIVO</option>
+						<option value='F'>INACTIVO</option>
+					{% endif %}
 				</select>
 			</div>			
 		</div>
-
 		<div class="form-group">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-4">
@@ -104,4 +96,3 @@
 			<div class="col-sm-2"></div>
 		</div>
 	</form>
-

@@ -12,19 +12,19 @@ class ImproductivaController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->improductiva->listar("");
-		$this->mostrar($listado, 'ImproductivaListView.php');
+		$this->mostrar($listado, 'ImproductivaListView.twig');
 	}
 	public function editar(){
 
 		$this->improductiva->pkImproductiva = $_POST['pkImproductiva'];
 
 		$imp = $this->improductiva->findOne("pkImproductiva", $this->improductiva->pkImproductiva);
-		$this->mostrar($imp, 'ImproductivaView.php');
+		$this->mostrar($imp, 'ImproductivaView.twig');
 	}
 	public function nuevo(){
 		$listar = null;
 
-		$this->mostrar($listar, 'ImproductivaView.php');
+		$this->mostrar($listar, 'ImproductivaView.twig');
 	}
 	public function guardar()
 	{
@@ -46,8 +46,7 @@ class ImproductivaController extends ControllerBase
 	# metodos privados
 	private function mostrar($listado, $vista){
 		# aqui ingresamos todos los datos que queremos enviar
-		$data['listado'] = $listado;
-				
+		$data['listado'] = $listado;				
 		$this->show($vista, $data);
 	}
 }

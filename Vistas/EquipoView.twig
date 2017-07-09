@@ -1,0 +1,121 @@
+<script type="text/javascript" src="js/equipo.js"></script>
+<!--AQUI SOLO TENGO 12 COLUMNAS PARA REPARTIR-->
+	<div class="row">
+		<div class="col-sm-12">
+			<center>
+				<h3>EQUIPO PESADO</h3>
+			</center>
+		</div>
+	</div>
+	
+	<form class="form-horizontal" role="form">
+		{% set edicion = false %}
+		{% if listado is not null %}
+			{% set edicion = true %}
+			{% set equipo = listado %}
+		{% endif %}
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQTipo">Tipo de Equipo</label>
+			<div class="col-sm-9">
+				<select class="form-control" onchange="selectedModelo()" name="EQTipo" id="EQTipo">
+					<!--cargamos el select con los tipos llegados	-->
+					{% for tipo in tipos %}
+						{% if edicion %}
+							{% if tipo.pkeqtipo == equipo.fktipoequipo %}
+								<option value="{{ tipo.pkeqtipo }}" selected >{{ tipo.codigo ~ ' - ' ~ tipo.descripcion }}</option>
+							{% else %}
+								<option value="{{ tipo.pkeqtipo }}">{{ tipo.codigo ~ ' - ' ~ tipo.descripcion }}</option>
+							{% endif %}
+						{% else %}
+							<option value="{{ tipo.pkeqtipo }}">{{ tipo.codigo ~ ' - ' ~ tipo.descripcion }}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQModelo">Modelo de Equipo</label>
+			<div class="col-sm-9">
+				<select class="form-control" onchange="selectedCodigo()" name="EQModelo" id="EQModelo">
+					<!--cargamos el select con los cargos modelos	-->
+					{% if edicion %}
+						{% for modelo in modelos %}
+							{% if edicion %}
+								{% if modelo.pkeqmodelo == equipo.fkmodelo %}
+									<option value="{{ modelo.pkeqmodelo }}" selected >{{ modelo.codigo ~ ' - ' ~ modelo.descripcion }}</option>
+								{% else %}
+									<option value="{{ modelo.pkeqmodelo }}" >{{ modelo.codigo ~ ' - ' ~ modelo.descripcion }}</option>
+								{% endif %}
+							{% else %}
+								<option value="{{ modelo.pkeqmodelo }}">{{ modelo.codigo ~ ' - ' ~ modelo.descripcion }}</option>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQCodigo">Codigo</label>
+			<div class="col-sm-3">
+				<input type="hidden" id = "EQPkEquipo" value = "{{ edicion ? equipo.pkequipo : 0 }}"/>
+				<input class="form-control" maxlength="9" name="EQCodigo" id="EQCodigo"
+				data-inputmask="'mask': '**-****'"
+				maxlength="9" placeholder="Code" value= "{{ edicion ? equipo.codigo : '' }}"/>
+			</div>
+
+			<label class="col-sm-3 control-label" for="EQContrato">Contrato</label>
+			<div class="col-sm-3">
+				<select class="form-control" name="EQContrato" id="EQContrato">
+					{% if edicion %}
+						{% if equipo.fktipocontrato == "1" %}
+							<option value='1' selected >PROPIO</option>
+							<option value='2'>ALQUILADO</option>
+						{% else %}
+							<option value='1'>PROPIO</option>
+							<option value='2' selected>ALQUILADO</option>
+						{% endif %}
+					{% else %}
+						<option value='1'>PROPIO</option>
+						<option value='2' selected>ALQUILADO</option>
+					{% endif %}
+				</select>
+			</div>
+		</div>
+	
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQFechaIngreso">Fecha Ingreso</label>
+			<div   class="col-sm-3" >
+				<input type="text" class="form-control" name="EQFechaIngreso" id="EQFechaIngreso" data-date-format="DD-MM-YYYY" value= "{{ edicion ? equipo.fechaingreso : 'now'|date('d/m/Y') }}"/>
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQOrdenTrabajo">Orden de Trabajo</label>
+			<div class="col-sm-3">
+				<input type="hidden" id = 'EQIDOt' value = "{{ edicion ? equipo.fkordentrabajo : 0 }}">
+				<input type="text" onblur="salidafoco()" class="form-control" name="EQOrdenTrabajo" id="EQOrdenTrabajo" data-mask="999-99" maxlength="6" autocomplete="off"  placeholder="OT" value= "{{ edicion ? equipo.data : '' }}"/>
+			</div>
+			<label class="col-sm-6 text-left" id="EQNombreOt">{{ edicion ? equipo.nombre : '' }}</label>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="EQDescripcion">Descripcion</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="50" class="form-control" name="EQDescripcion" id="EQDescripcion" placeholder="Escriba descripcion del equipo" onKeyUp="this.value=this.value.toUpperCase();" value= "{{ edicion ? equipo.descripcion : '' }}"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-success btn-block" name="btnGuardar"  id="EQGuardar"><span class="glyphicon glyphicon-save"></span> Guardar</button>
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-danger btn-block" name="btnAtras" id="EQRetornar"><span class="glyphicon glyphicon-list"></span> Retornar</button>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</form>
