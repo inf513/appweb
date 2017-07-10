@@ -6,15 +6,15 @@
 	$Configure->set('ModelsFolder','Modelos/');
 	$Configure->set('ViewsFolder','Vistas/');
 
-	//$Configure->set('dbhost', '200.87.51.3');
-	$Configure->set('dbhost', 'localhost');
+	$Configure->set('dbhost', '200.87.51.3');
+	//$Configure->set('dbhost', 'localhost');
 
-	//$Configure->set('dbname', 'db_grupo06');
-	$Configure->set('dbname', 'dbsiagro');
+	$Configure->set('dbname', 'db_grupo06sa');
+	//$Configure->set('dbname', 'dbsiagro');
 
-	//$Configure->set('dbuser', 'grupo06');
-	$Configure->set('dbuser', 'openpg');
+	$Configure->set('dbuser', 'grupo06sa');
+	//$Configure->set('dbuser', 'openpg');
 
-	//$Configure->set('dbpass', 'grupo06grupo06');
-	$Configure->set('dbpass', 'openpgpwd');
+	$Configure->set('dbpass', 'grupo06grupo06');
+	//$Configure->set('dbpass', 'openpgpwd');
 ?>

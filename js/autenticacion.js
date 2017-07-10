@@ -32,9 +32,9 @@ function verificar(nick, pass){
 }
 function enviarFormulario(data){
 	console.log("llegue como resultado js");
-	if(data.status == "error"){		
+	if(data.status == "error"){
 		document.getElementById("idmsg").innerHTML = "Usuario o contraseña incorrectas!!";
-		$('#messsageModal').modal('show');		
+		$('#messsageModal').modal('show');
 	}else{
 		console.log("Se valido correctamente");
 		$("#formlogin").submit();

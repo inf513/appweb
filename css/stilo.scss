@@ -1,6 +1,7 @@
 /* variables globales*/
 $color-nav-back: #333;
 $color-nav-font: #999;
+$color-pills-focus: #337ab7;
 
 #nav-secundario{
 	padding: 0 50px 0 0;
@@ -32,12 +33,6 @@ header > h1{
 	background-size: cover;
 
 }
-/* menu navegacion principal */
-#logo{
-	color: #5C8DC5;
-	font-size: 46px;
-	font-weight: 100;
-}
 
 #nav-principal{
 	background-color: #333;
@@ -57,18 +52,6 @@ header > h1{
 	background-color: #333;
 }
 
-#nav-principal a {
-	display: block;
-	padding: 15px 15px;
-
-	color: #eee;
-	font-size: 15px;
-	text-shadow: 0 1px #98ABC6
-}
-#nav-principal a:hover{
-	color: #ddd;
-	background-color: #111;
-}
 #contenedor, footer{
 	padding: 0;
 	margin: 0 auto;

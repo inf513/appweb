@@ -46,7 +46,7 @@ class ImproductivaController extends ControllerBase
 	# metodos privados
 	private function mostrar($listado, $vista){
 		# aqui ingresamos todos los datos que queremos enviar
-		$data['listado'] = $listado;				
+		$data['listado'] = $listado;
 		$this->show($vista, $data);
 	}
 }
