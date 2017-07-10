@@ -69,16 +69,6 @@
 			<div class="col-sm-4">
 				<select class="form-control" name="PECargo" id="PECargo">
 					<!--cargamos el select con los cargos llegados	-->
-					<?php
-							if(!is_null($cargos)){
-								foreach($cargos as $cargo){
-									if($cargo->pkcargo == $personal->fkcargo)
-										echo "<option value=\"" . $cargo->pkcargo . "\" selected >" . $cargo->descripcion . "</option>";
-									else
-										echo "<option value=\"" . $cargo->pkcargo . "\">" . $cargo->descripcion . "</option>";
-								}
-							}
-					?>
 					{% if cargos is not null %}
 						{% for cargo in cargos %}
 							{% if cargo.pkcargo == personal.fkcargo %}
