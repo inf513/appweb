@@ -1,0 +1,43 @@
+<script type="text/javascript" src="js/actividad.js"></script>
+<!--AQUI SOLO TENGO NUEVE COLUMNAS PARA REPARTIR-->
+	<div class="row">		
+		<div class="col-sm-12">
+			<center>
+				<h3>ACTIVIDADES</h3>
+			</center>
+		</div>
+	</div>
+	<form class="form-horizontal" role="form">
+		{% set edicion = false %}
+		{% if listado is not null %}
+			{% set edicion = true %}
+			{% set actividad = listado %}
+		{% endif %}
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="IMCodigo">Codigo</label>
+			<input type="hidden" class="form-control" name="txtPkActividad" id="IMPkActividad" disabled value= "{{ edicion ? actividad.pkactividad : '0' }}"/>
+					
+			<div class="col-sm-9">
+				<input type="text" maxlength="2" class="form-control" name="txtCodigo" id="IMCodigo" placeholder="Codigo de Actividad" onKeyUp="this.value = this.value.toUpperCase();" value= "{{ edicion ? actividad.codigo : '' }}"/>
+			</div>			
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="IMDescripcion">Descripcion</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="50" class="form-control" name="txtDescripcion" id="IMDescripcion" placeholder="Describa la actividad" onKeyUp="this.value=this.value.toUpperCase();" value= "{{ edicion ? actividad.descripcion : '' }}"/>
+			</div>			
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-success btn-block" name="btnGuardar"  id="IMGuardar"><span class="glyphicon glyphicon-save"></span> Guardar</button>
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-danger btn-block" name="btnAtras" id="IMRetornar"><span class="glyphicon glyphicon-list"></span> Retornar</button>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</form>

@@ -8,6 +8,9 @@ $(document).ready(function(){
 	$("#idFOt").click(function(evento){
 		cargarForumulario(evento, "OrdenTrabajo", "listar");	
 	});
+	$("#idFActividad").click(function(evento){
+		cargarForumulario(evento, "Actividad", "listar");	
+	});
 	$("#idFPersonal").click(function(evento){
 		cargarForumulario(evento, "Personal", "listar");
 	});
