@@ -5,6 +5,19 @@ $(document).ready(function(){
 	$("#idFImproductiva").click(function(evento){
 		cargarForumulario(evento, "Improductiva", "listar");	
 	});
+
+	$("#idFActividad").click(function(evento){
+		cargarForumulario(evento, "Actividad", "listar");	
+	});
+
+	$("#idFEstadistica").click(function(evento){
+		cargarForumulario(evento, "Estadistica", "listar");	
+	});
+
+	$("#idFUsuario").click(function(evento){
+		cargarForumulario(evento, "Usuario", "listar");	
+	});
+
 	$("#idFOt").click(function(evento){
 		cargarForumulario(evento, "OrdenTrabajo", "listar");	
 	});
@@ -24,6 +37,10 @@ $(document).ready(function(){
 
 	$("#idFGestion").click(function(evento){
 		cargarForumulario(evento, "Gestion", "listar")
+	});
+
+	$("#idFPoligono").click(function(evento){
+		cargarForumulario(evento, "Poligono", "listar")
 	});
 
 	$("#idEstadoEquipo").click(function(evento){
