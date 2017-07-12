@@ -14,6 +14,7 @@ class PoligonoModel extends ModelBase{
 		$fkOrdenTrabajo = 0;
 		$codigo = '';
 		$descripcion = '';
+		$this->sequencia = "sppoligono_pkpoligono_seq";
 	}
 
 	protected function getParametrosWhere(){
@@ -28,13 +29,16 @@ class PoligonoModel extends ModelBase{
 		$parametros[":codigo"] = $this->codigo;
 		$parametros[":descripcion"] = $this->descripcion;
 
-		if($tipo == 0) // insertar
-			$parametros[":pkPoligono"] = $this->pkPoligono;
-
 		return $parametros;
 	}
 	protected function getSqlListar(){
-		return "SELECT pkPoligono, fkOrdenTrabajo, codigo, descripcion FROM " . $this->tabla;
+		$consulta = " SELECT";
+		$consulta .= " p.pkpoligono, p.fkordentrabajo,";
+		$consulta .= " p.codigo, p.descripcion,";
+		$consulta .= " o.data as codOt, o.nombre as nombreOt";
+		$consulta .= " from sppoligono p";
+		$consulta .= " inner join spordentrabajo o on p.fkordentrabajo = o.pkordentrabajo";
+		return $consulta;
 	}
 	protected function getIdTabla(){
 		return $this->pkPoligono;

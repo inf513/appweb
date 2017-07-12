@@ -1,0 +1,53 @@
+<script type="text/javascript" src="js/poligono.js"></script> 
+<!--AQUI SOLO TENGO 12 COLUMNAS PARA REPARTIR-->
+	<div class="row">
+		<div class="col-sm-12">
+			<center>
+				<h3>POLIGONO DE OBRA</h3>
+			</center>
+		</div>
+	</div>
+	
+	<form class="form-horizontal" role="form">
+		{% set edicion = false %}
+		{% if listado is not null %}
+			{% set edicion = true %}
+			{% set poligono = listado %}
+		{% endif %}
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="IOOrdenTrabajo">Orden de Trabajo</label>
+			<div class="col-sm-3">
+				<input type="hidden" id = 'POIDOt' value = "{{ edicion ? poligono.fkordentrabajo : 0 }}" >
+				<input type="text" onblur="salidafoco()" class="form-control" name="POOrdenTrabajo" id="POOrdenTrabajo" data-mask="999-99" maxlength="6" autocomplete="off"  placeholder="OT" value= "{{ edicion ? poligono.codot : '' }}"/>
+			</div>
+			<label class="col-sm-6 text-left" id="PONombreOt">{{ edicion ? poligono.nombreot : '' }}</label>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="POCodigo">Codigo</label>
+			<div class="col-sm-3">
+				<input type="hidden" id = 'POPkPoligono' value = "{{ edicion ? poligono.pkpoligono : 0 }}">
+				<input type="text" class="form-control" name="POCodigo" id="POCodigo" maxlength="3" autocomplete="off" placeholder="Code" value= "{{ edicion ? poligono.codigo : '' }}"/>
+			</div>
+			<div class="col-sm-6"></div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="PODescripcion">Descripcion</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="50" class="form-control" name="PODescripcion" id="PODescripcion" placeholder="Escriba actividad productiva" value= "{{ edicion ? poligono.descripcion : '' }}"/>
+			</div>			
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-success btn-block" name="btnGuardar"  id="POGuardar"><span class="glyphicon glyphicon-save"></span> Guardar</button>
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-danger btn-block" name="btnAtras" id="PORetornar"><span class="glyphicon glyphicon-list"></span> Retornar</button>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</form>

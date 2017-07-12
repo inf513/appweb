@@ -47,7 +47,7 @@ class AutenticacionController extends ControllerBase
 		$result = array();
 
 		if(! is_null($listado)){			
-			if($listado->password == $_POST["password"]) {# son iguales
+			if($listado->password == sha1($_POST["password"])) {# son iguales
 				$result["nickname"] = $listado->nickname;
 			 	$result["fkgrupousuario"] = $listado->fkgrupousuario;
 			 	$result["pkusuario"] = $listado->pkusuario;
@@ -71,7 +71,7 @@ class AutenticacionController extends ControllerBase
 		$usuario = new UsuarioModel();
 		$listado  = $usuario->findOne("nickName",$nick);
 		if(!is_null($listado)){			
-			if($listado->password == $pass)
+			if($listado->password == sha1($pass))
 				return true;
 			else
 				return false;
@@ -132,7 +132,7 @@ class AutenticacionController extends ControllerBase
 		$usr = $usuario->findOne("nickName",$nick);
 
 		if(!is_null($usr)){
-			if($usr->password == $password){
+			if($usr->password == sha1($password)){
 				#si es valido busco sus menus
 				$listado = $modgrp->getModulos($usr->fkgrupousuario);
 				if(!is_null($listado)){					

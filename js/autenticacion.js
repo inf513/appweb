@@ -30,8 +30,7 @@ function verificar(nick, pass){
 
 	return msg;
 }
-function enviarFormulario(data){
-	console.log("llegue como resultado js");
+function enviarFormulario(data){	
 	if(data.status == "error"){
 		document.getElementById("idmsg").innerHTML = "Usuario o contraseña incorrectas!!";
 		$('#messsageModal').modal('show');

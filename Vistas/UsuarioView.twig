@@ -1,0 +1,85 @@
+<script type="text/javascript" src="js/usuario.js"></script>
+<!--AQUI SOLO TENGO 12 COLUMNAS PARA REPARTIR-->
+	<div class="row">
+		<div class="col-sm-12">
+			<center>
+				<h3>USUARIO DE SISTEMAS</h3>
+			</center>
+		</div>
+	</div>
+	
+	<form class="form-horizontal" role="form">
+		{% set edicion = false %}
+		{% if listado is not null %}
+			{% set edicion = true %}
+			{% set usuario = listado %}
+		{% endif %}
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="PENickName">Nombre de usuario</label>
+			<div   class="col-sm-3" >
+				<input type="hidden" class="form-control" name="USPkUsuario" id="USPkUsuario" disabled value= "{{ edicion ? usuario.pkusuario : 0 }}"/>
+				<input type="text" class="form-control" name="USNickName" id="USNickName" value= "{{ edicion ? usuario.nickname : '' }}"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="PENombre">Nombres</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="50" class="form-control" name="USNombreCompleto" id="USNombreCompleto" placeholder="Ecriba sus Nombres completos " onKeyUp="this.value = this.value.toUpperCase();" value= "{{ edicion ? usuario.nombrecompleto : '' }}"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="PEApellidos">Apellidos</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="50" class="form-control" name="USApellidos" id="USApellidos" placeholder="Escriba sus apellidos" onKeyUp="this.value=this.value.toUpperCase();" value= "{{ edicion ? usuario.apellidos : '' }}"/>
+			</div>			
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="PEDireccion">Correo electronico</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="50" class="form-control" name="USEmail" id="USEmail" placeholder="Correo electronico" value= "{{ edicion ? usuario.email : '' }}"/>
+			</div>			
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="PECargo">Grupo</label>
+			<div class="col-sm-4">
+				<select class="form-control" name="USGrupo" id="USGrupo">
+					<!--cargamos el select con los grupos llegados	-->
+					{% if grupos is not null %}
+						{% for grupo in grupos %}
+							{% if grupo.pkgrupo == usuario.fkgrupousuario %}
+								<option value="{{ grupo.pkgrupo }}" selected >{{ grupo.descripcion }}</option>
+							{% else %}
+								<option value="{{ grupo.pkgrupo }}">{{ grupo.descripcion }}</option>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="USPassword">Contraseña</label>
+			<div class="col-sm-3">
+				<input type="password" maxlength="20" class="form-control" name="USPassword" id="USPassword" placeholder="contraseña" value= "{{ edicion ? usuario.password : '' }}"/>
+			</div>
+			<label class="col-sm-3 control-label" for="USPassword1">Repita Contraseña</label>
+			<div class="col-sm-3">
+				<input type="password" maxlength="20" class="form-control" name="USPassword1" id="USPassword1" placeholder="contraseña" value= "{{ edicion ? usuario.password : '' }}"/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-success btn-block" name="btnGuardar"  id="USGuardar"><span class="glyphicon glyphicon-save"></span> Guardar</button>
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-danger btn-block" name="btnAtras" id="USRetornar"><span class="glyphicon glyphicon-list"></span> Retornar</button>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+	</form>

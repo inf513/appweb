@@ -32,7 +32,7 @@ class GrupoModel extends ModelBase{
 		return $this->pkGrupo;
 	}
 	protected function modificarDatos($filas){
-		return $this->pkGrupo;
+		return $filas;
 	}
 }
 ?>

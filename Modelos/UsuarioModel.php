@@ -1,13 +1,13 @@
 <?php
 class UsuarioModel extends ModelBase{
 
-	private $pkUsuario;
-	private $nickName;
-	private $nombreCompleto;
-	private $apellidos;
-	private $email;
-	private $password;
-	private $fkGrupoUsuario;
+	public $pkUsuario;
+	public $nickName;
+	public $nombreCompleto;
+	public $apellidos;
+	public $email;
+	public $password;
+	public $fkGrupoUsuario;
 
 	public function __construct()
 	{
@@ -55,7 +55,10 @@ class UsuarioModel extends ModelBase{
 	 * @return String con la consulta
 	 */
 	protected function getSqlListar(){
-		$consulta = "SELECT pkUsuario, nickName, nombreCompleto, apellidos, email, password, fkGrupoUsuario FROM " . $this->tabla;
+		$consulta = "  SELECT u.pkUsuario, u.nickName, u.nombreCompleto, u.apellidos, ";
+		$consulta .= " u.email, u.password, g.descripcion as grupo, u.fkgrupousuario ";
+		$consulta .= " FROM usuario u ";
+		$consulta .= " INNER JOIN grupo g on u.fkgrupousuario = g.pkgrupo ";
 
 		return $consulta;
 	}

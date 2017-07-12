@@ -58,7 +58,6 @@ class ModuloGrupoModel extends ModelBase{
 			$consulta .= " WHERE mg.fkgrupo = " . $pkGrupo;
 			$consulta .= " GROUP BY g.descripcion, m.descripcion, m.nombrefile, m.idmenu";
 			$consulta .= " ORDER BY 2 ";
-
 			
 			return $this->consultar($consulta);
 
