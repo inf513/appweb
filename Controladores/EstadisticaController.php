@@ -36,7 +36,7 @@ class EstadisticaController extends ControllerBase
          
 	}
  
-    public function estadisticaImg(){
+    public function estadisticaImge(){
        
         try{
 
@@ -44,7 +44,7 @@ class EstadisticaController extends ControllerBase
 
 
 
-        $datay =array( 62 , 105 , 85 , 50 );
+       // $datay =array( 62 , 105 , 85 , 50 );
         /*while($row = mysql_fetch_array($res)){
         $datos []= $row['visitas'];
         $labels[]=$row['nombre'];
@@ -72,7 +72,7 @@ class EstadisticaController extends ControllerBase
 
         //$graph->ygrid->SetColor('gray');
         $graph -> ygrid -> SetFill ( false );
-        $graph -> xaxis -> SetTickLabels (array( 'A' , 'B' , 'C' , 'D' ));
+        $graph -> xaxis -> SetTickLabels (array('5','3','4','1','2','6','7','9','8'  ));
         $graph -> yaxis -> HideLine ( false );
         $graph -> yaxis -> HideTicks ( false , false );
 
@@ -86,7 +86,7 @@ class EstadisticaController extends ControllerBase
         $b1plot -> SetColor ( "white" );
         $b1plot -> SetFillGradient ( "#4B0082" , "white" , GRAD_LEFT_REFLECTION );
         $b1plot -> SetWidth ( 45 );
-        $graph -> title -> Set ( "Bar Gradient(Left reflection)" );
+        $graph -> title -> Set ( "Estadistica de visitas" );
 
         // Display the graph
         //$graph -> Stroke ();
@@ -110,6 +110,80 @@ class EstadisticaController extends ControllerBase
         
 
     }
+
+
+
+
+
+    
+
+
+
+ public function estadisticaImg(){
+       
+        try{
+
+          
+
+
+        $pag= array();
+        $vis= array();
+        $listado = $this->estadistica->listar("");
+        foreach ($listado as $estado){
+            $vis[]= $estado->visitas;
+            $pag[]= $estado->id;
+            
+        }
+        
+                
+        $datay=array(62,105,85,50);
+
+
+        // Create the graph. These two calls are always required
+        $graph = new Graph(500,400,'auto');
+        $graph->SetScale("textlin");
+        $graph->title->set("CONTADOR DE PAGINAS");
+        $graph->xaxis->title->set("Paginas");
+        $graph->xaxis->SetTickLabels($pag);
+        $graph->yaxis->title->set("Visitas");
+
+        $barplot1= new BarPlot($vis);
+        //$barplot1->SetColor("white");
+        $barplot1->SetFillGradient("#4B0082","#e3cef6",GRAD_HOR);
+        $barplot1->SetWidth(30);
+
+
+        $graph->Add($barplot1);
+
+
+        $gdImgHandler = $graph->Stroke(_IMG_HANDLER);
+        
+        // Stroke image to a file and browser
+ 
+        // Default is PNG so use ".png" as suffix
+        $fileName = "img\imagefile.png";
+        $graph->img->Stream($fileName);
+ 
+// Send it back to browser
+       // $graph->img->Headers();
+        //$graph->img->Stream();
+        }catch(Exception $e){
+            $e->getMessage();
+        }
+
+
+
+
+
+
+       
+
+    }
+
+
+    
+
+    
 
 
 }
