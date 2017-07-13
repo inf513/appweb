@@ -98,7 +98,7 @@ class EstadisticaController extends ControllerBase
         // Stroke image to a file and browser
  
         // Default is PNG so use ".png" as suffix
-        $fileName = "imagefile.png";
+        $fileName = "img\imagefile.png";
         $graph->img->Stream($fileName);
  
 // Send it back to browser
