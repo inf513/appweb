@@ -1,6 +1,7 @@
 <?php
 require_once "Modelos/UsuarioModel.php";
 require_once "Modelos/GrupoModel.php";
+require_once "Negocio/FuncionesComunes.php";
 /**
  * Clase controladora encargada de las acciones de usuario
  */
@@ -20,6 +21,8 @@ class UsuarioController extends ControllerBase
 	{
 		try {
 			$listado = $this->usuario->listar("");
+			FuncionesComunes::contadorPagina(9);
+
 			$this->mostrar($listado, null, 'UsuarioListView.twig');
 		} catch (Exception $e) {
 			echo "[UsuarioController.listar] " . $e->getMessage();

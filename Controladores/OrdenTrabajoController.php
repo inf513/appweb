@@ -1,6 +1,7 @@
 <?php
 require_once "Modelos/OrdenTrabajoModel.php";
 require_once "Modelos/GestionModel.php";
+require_once "Negocio/FuncionesComunes.php";
 
 class OrdenTrabajoController extends ControllerBase
 {
@@ -18,6 +19,8 @@ class OrdenTrabajoController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->ot->listar("");
+
+		FuncionesComunes::contadorPagina(7);
 	
 		$this->mostrar($listado, 'OrdenTrabajoListView.twig');
 	}

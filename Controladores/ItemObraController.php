@@ -3,6 +3,7 @@ require_once "Modelos/OrdenTrabajoModel.php";
 require_once "Modelos/PoligonoModel.php";
 require_once "Modelos/ActividadModel.php";
 require_once "Modelos/ItemObraModel.php";
+require_once "Negocio/FuncionesComunes.php";
 
 class ItemObraController extends ControllerBase
 {
@@ -22,6 +23,8 @@ class ItemObraController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->itemObra->listar("");
+
+		FuncionesComunes::contadorPagina(6);
 	
 		$this->mostrar($listado, null, null, 'ItemObraListView.twig');
 	}

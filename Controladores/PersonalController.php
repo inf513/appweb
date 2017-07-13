@@ -2,6 +2,7 @@
 require_once "Modelos/PersonalModel.php";
 require_once "Modelos/OrdenTrabajoModel.php";
 require_once "Modelos/CargoModel.php";
+require_once "Negocio/FuncionesComunes.php";
 /**
  * Clase controladora encargada de las acciones del personal
  */
@@ -23,6 +24,8 @@ class PersonalController extends ControllerBase
 	{
 		try {
 			$listado = $this->personal->listar("");
+
+			FuncionesComunes::contadorPagina(5);
 		
 			$this->mostrar($listado, null, 'PersonalListView.twig');
 		} catch (Exception $e) {

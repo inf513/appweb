@@ -1,5 +1,6 @@
 <?php
 require_once "Modelos/GestionModel.php";
+require_once "Negocio/FuncionesComunes.php";
 
 class GestionController extends ControllerBase
 {
@@ -13,6 +14,8 @@ class GestionController extends ControllerBase
 	public function listar()
 	{
 		$gestiones = $this->gestion->listar("");
+
+		FuncionesComunes::contadorPagina(2);
 		
 		$this->mostrar($gestiones, 'GestionListView.twig');
 	}

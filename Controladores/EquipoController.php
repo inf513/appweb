@@ -3,6 +3,7 @@ require_once "Modelos/OrdenTrabajoModel.php";
 require_once "Modelos/EqModeloModel.php";
 require_once "Modelos/EqTipoModel.php";
 require_once "Modelos/EquipoModel.php";
+require_once "Negocio/FuncionesComunes.php";
 
 class EquipoController extends ControllerBase
 {
@@ -22,6 +23,8 @@ class EquipoController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->equipo->listar("");
+
+		FuncionesComunes::contadorPagina(3);
 
 		$this->mostrar($listado, null, null, 'EquipoListView.twig');
 	}

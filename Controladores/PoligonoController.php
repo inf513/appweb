@@ -1,6 +1,7 @@
 <?php
 require_once "Modelos/PoligonoModel.php";
 require_once "Modelos/OrdenTrabajoModel.php";
+require_once "Negocio/FuncionesComunes.php";
 
 class PoligonoController extends ControllerBase
 {
@@ -13,6 +14,8 @@ class PoligonoController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->poligono->listar("");
+		FuncionesComunes::contadorPagina(8);
+
 		$this->mostrar($listado, 'PoligonoListView.twig');
 	}
 	public function editar(){

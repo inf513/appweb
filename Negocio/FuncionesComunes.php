@@ -1,5 +1,6 @@
 <?php
 require_once "Modelos/GestionModel.php";
+require_once "Modelos/EstadisticaModel.php";
 class FuncionesComunes{
 	# funcion que devuelve el codigo de gestion a partir de la llave primaria
 	public static function getGestionCodigo($pkGestion){
@@ -29,5 +30,17 @@ class FuncionesComunes{
 		
 		return $data;
 	}	
+
+	public static function contadorPagina($i){
+		
+		$estadistica = new Estadisticamodel();
+		$c = $estadistica ->findOne('id',$i);
+		//$i=id;
+			
+		$estadistica->visitas=$c->visitas+1;
+		$estadistica->id=$i;
+		$estadistica->paginas = $c->paginas;
+		$estadistica->guardarModel(); 
+	}
 }
 ?>

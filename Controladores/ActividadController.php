@@ -1,5 +1,6 @@
 <?php
 require_once "Modelos/ActividadModel.php";
+require_once "Negocio/FuncionesComunes.php";
 
 class ActividadController extends ControllerBase{
    private $actividad=null;
@@ -11,6 +12,7 @@ class ActividadController extends ControllerBase{
     	public function listar()
 	{
 		$listado = $this->actividad->listar("");
+		FuncionesComunes::contadorPagina(1);
       //  print_r($listado);
 		$this->mostrar($listado, 'ActividadListView.twig');
 	}
