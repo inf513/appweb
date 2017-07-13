@@ -9,7 +9,8 @@ class ActividadController extends ControllerBase{
 		parent::__construct();
 		$this->actividad = new ActividadModel();
 	}
-    	public function listar()
+    
+	public function listar()
 	{
 		$listado = $this->actividad->listar("");
 		FuncionesComunes::contadorPagina(1);

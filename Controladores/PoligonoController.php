@@ -23,9 +23,7 @@ class PoligonoController extends ControllerBase
 		$this->poligono->pkPoligono = $_POST['pkPoligono'];
 
 		$pol = $this->poligono->findOne("pkPoligono", $this->poligono->pkPoligono);
-		
-		print_r($pol);
-
+	
 		$this->mostrar($pol, 'PoligonoView.twig');
 	}
 	public function nuevo(){
