@@ -15,7 +15,7 @@
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
-				<tr class="danger">					
+				<tr class="danger">
 					<th>Codigo</th>
 					<th>Nombre</th>
 					<th>Estado</th>
@@ -29,9 +29,9 @@
 						<tr>
 							<td>{{ ot.data }}</td>
 							<td>{{ ot.nombre }}</td>
-							<td>{{ (ot.estado=='T') ? 'ACTIVO' : 'INACTIVO' }}></td>
+							<td>{{ (ot.estado=='T') ? 'ACTIVO' : 'INACTIVO' }}</td>
 							<td><a href='#' onclick="editar({{ ot.pkordentrabajo }})"><span class='glyphicon glyphicon-edit' data-toggle='tooltip' title='Editar'></span></a></td>
-							<td><a href='#' onclick="eliminar({{ ot.pkordentrabajo }},'{{ ot.nombre }}')"><span class='glyphicon glyphicon-trash' data-toggle='tooltip' title='Eliminar'></span></a></td>";
+							<td><a href='#' onclick="eliminar({{ ot.pkordentrabajo }},'{{ ot.nombre }}')"><span class='glyphicon glyphicon-trash' data-toggle='tooltip' title='Eliminar'></span></a></td>
 						</tr>
 					{% endfor %}
 				{% endif %}

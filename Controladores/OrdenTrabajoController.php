@@ -7,24 +7,26 @@ class OrdenTrabajoController extends ControllerBase
 {
 	private $ot = null;
 	private $gestion = null;
-
+	private $contarSw = true;
 	public function __construct(){
 		parent::__construct();
 		$this->ot = new OrdenTrabajoModel();
 		$this->gestion = new GestionModel();
-
+		$this->contarSw = true;
 		$this->obtenerGestionActiva();
 
 	}
 	public function listar()
 	{
 		$listado = $this->ot->listar("");
-
-		FuncionesComunes::contadorPagina(7);
+		if($this->contarSw){
+			FuncionesComunes::contadorPagina(7);
+		}
 	
 		$this->mostrar($listado, 'OrdenTrabajoListView.twig');
 	}
 	public function editar(){
+		$this->contarSw = false;
 		$this->ot->pkOrdenTrabajo = $_POST['pkOrdenTrabajo'];
 		$ot = $this->ot->findOne("pkOrdenTrabajo", $this->ot->pkOrdenTrabajo);
 	
@@ -32,6 +34,7 @@ class OrdenTrabajoController extends ControllerBase
 	}
 	public function nuevo(){
 		$listar = null;
+		$this->contarSw = false;
 		$this->mostrar($listar, 'OrdenTrabajoView.twig');
 	}
 	private function obtenerGestionActiva(){
@@ -48,7 +51,7 @@ class OrdenTrabajoController extends ControllerBase
 	}
 	public function guardar()
 	{
-
+		$this->contarSw = false;
 		$this->ot->pkOrdenTrabajo = $_POST['pkOrdenTrabajo'];
 		$this->ot->codigo = $_POST['codigo'];
 		$this->ot->fkGestion = $_POST['fkGestion'];
@@ -64,6 +67,7 @@ class OrdenTrabajoController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->ot->pkOrdenTrabajo = $_POST['pkOrdenTrabajo'];
 		$this->ot->delModel();
 

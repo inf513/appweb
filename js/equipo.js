@@ -133,7 +133,10 @@ function nuevo(){
 	$("#principal").load(url, {
 		controlador: "Equipo",
 		accion: "nuevo"
-	});
+		}, function(){
+			document.getElementById("EQTipo").selectedIndex = -1;
+		}
+	);
 
 }
 
@@ -147,9 +150,6 @@ function salidafoco(){
 				  data : document.getElementById("EQOrdenTrabajo").value
 				},
 				function(datos){
-					
-					console.log("status : " + datos.status);
-
 					if(datos.status == "error"){
 						document.getElementById("EQIDOt").value = 0;
 						document.getElementById("EQOrdenTrabajo").value = "";
@@ -174,9 +174,6 @@ function selectedModelo(){
 				  tipo : pkeqtipo
 				},
 				function(datos){
-					
-					console.log("status : " + datos.status);
-
 					if(datos.status == "error"){
 						cargarControles(null);
 					}else{
@@ -224,7 +221,7 @@ function selectedCodigo(){
 		aux = modelos.options[modelos.selectedIndex].text;
 		aux = aux.split(" ");
 		document.getElementById("EQCodigo").value = data[0] + "-" + 
-													aux[0] + "-  ";
+													aux[0] + "-";
 
 	}else{
 		document.getElementById("EQCodigo").value = data[0] + "-" + 

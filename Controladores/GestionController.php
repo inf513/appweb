@@ -5,22 +5,23 @@ require_once "Negocio/FuncionesComunes.php";
 class GestionController extends ControllerBase
 {
 	private $gestion = null;
-
+	private $contarSw = true;
 	public function __construct(){
 		parent::__construct();
-
+		$this->contarSw = true;
 		$this->gestion = new GestionModel();
 	}
 	public function listar()
 	{
 		$gestiones = $this->gestion->listar("");
-
-		FuncionesComunes::contadorPagina(2);
+		if($this->contarSw){
+			FuncionesComunes::contadorPagina(2);
+		}
 		
 		$this->mostrar($gestiones, 'GestionListView.twig');
 	}
 	public function editar(){
-
+		$this->contarSw = false;
 		$this->gestion->pkGestion = $_POST['pkGestion'];
 		$g = $this->gestion->findOne("pkGestion", $this->gestion->pkGestion);
 
@@ -28,12 +29,13 @@ class GestionController extends ControllerBase
 	}
 	public function nuevo(){
 		$listar = null;
-
+		$this->contarSw = false;
 		$this->mostrar($listar, 'GestionView.twig');
 	}
 
 	public function guardar()
 	{
+		$this->contarSw = false;
 		$this->gestion->pkGestion 		= $_POST['pkGestion'];
 		$this->gestion->codigo 			= $_POST['codigo'];
 		$this->gestion->fechaIni 		= $_POST['fechaIni'];
@@ -47,6 +49,7 @@ class GestionController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->gestion->pkGestion = $_POST['pkGestion'];
 		$this->gestion->delModel();
 

@@ -6,20 +6,23 @@ require_once "Negocio/FuncionesComunes.php";
 class PoligonoController extends ControllerBase
 {
 	private $poligono = null;
+	private $contarSw = true;
 
 	public function __construct(){
 		parent::__construct();
+		$this->contarSw = true;
 		$this->poligono = new PoligonoModel();
 	}
 	public function listar()
 	{
 		$listado = $this->poligono->listar("");
-		FuncionesComunes::contadorPagina(8);
-
+		if($this->contarSw){
+			FuncionesComunes::contadorPagina(8);
+		}
 		$this->mostrar($listado, 'PoligonoListView.twig');
 	}
 	public function editar(){
-
+		$this->contarSw = false;
 		$this->poligono->pkPoligono = $_POST['pkPoligono'];
 
 		$pol = $this->poligono->findOne("pkPoligono", $this->poligono->pkPoligono);
@@ -28,12 +31,12 @@ class PoligonoController extends ControllerBase
 	}
 	public function nuevo(){
 		$listar = null;
-
+		$this->contarSw = false;
 		$this->mostrar($listar, 'PoligonoView.twig');
 	}
 	public function guardar()
 	{
-		
+		$this->contarSw = false;
 		$this->poligono->pkPoligono = $_POST['pkPoligono'];
 		$this->poligono->fkOrdenTrabajo = $_POST['fkOrdenTrabajo'];
 		$this->poligono->codigo = $_POST['codigo'];
@@ -44,6 +47,7 @@ class PoligonoController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->poligono->pkPoligono = $_POST['pkPoligono'];
 		$this->poligono->delModel();
 

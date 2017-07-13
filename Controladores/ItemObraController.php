@@ -11,10 +11,11 @@ class ItemObraController extends ControllerBase
 	private $ot = null;
 	private $poligono = null;
 	private $actividad = null;
+	private $contarSw = true;
 
 	public function __construct(){
 		parent::__construct();
-
+		$this->contarSw = true;
 		$this->itemObra = new ItemObraModel();
 		$this->ot = new OrdenTrabajoModel(); 
 		$this->poligono = new PoligonoModel();
@@ -23,13 +24,14 @@ class ItemObraController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->itemObra->listar("");
+		if($this->contarSw){
+			FuncionesComunes::contadorPagina(6);
+		}
 
-		FuncionesComunes::contadorPagina(6);
-	
 		$this->mostrar($listado, null, null, 'ItemObraListView.twig');
 	}
 	public function editar(){
-
+		$this->contarSw = false;
 		$this->itemObra->pkItemObra = $_POST['pkItemObra'];
 
 		$io = $this->itemObra->findOne("pkItemObra", $this->itemObra->pkItemObra);
@@ -42,13 +44,13 @@ class ItemObraController extends ControllerBase
 		#ademas enviamos la lista de actividades
 		$actividades = $this
 						->actividad
-						->listar(" fkordentrabajo = " . $io->fkordentrabajo);
+						->listar("");
 
 		$this->mostrar($io, $poligonos, $actividades, 'ItemObraView.twig');
 	}
 	public function nuevo(){
 		$listar = null;
-
+		$this->contarSw = false;
 		#ademas enviamos la lista de poligonos
 		# modificar despues las ot
 		#$poligonos = $this->poligono->listar("");
@@ -62,6 +64,7 @@ class ItemObraController extends ControllerBase
 
 	public function guardar()
 	{
+		$this->contarSw = false;
 		$this->itemObra->pkItemObra 	= $_POST['pkItemObra'];
 		$this->itemObra->fkOrdenTrabajo = $_POST['fkOrdenTrabajo'];
 		$this->itemObra->fkPoligono 	= $_POST['fkPoligono'];
@@ -77,6 +80,7 @@ class ItemObraController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->itemObra->pkItemObra = $_POST['pkItemObra'];
 		$this->itemObra->delModel();
 
@@ -88,6 +92,7 @@ class ItemObraController extends ControllerBase
 	 */
 	public function getOrdenTrabajo(){
 		$data = $_POST['data'];
+
 		$listado = $this->ot->findOne("data", $data);
 		
 		if(count($listado) > 0){
@@ -100,8 +105,7 @@ class ItemObraController extends ControllerBase
 			# obtenemos la lista de actividades
 				$actividades = $this
 							->actividad
-							->listar(" fkordentrabajo = " . 
-										$listado->pkordentrabajo);
+							->listar("");
 
 			$listado->poligonos = $poligonos;
 			$listado->actividades = $actividades;

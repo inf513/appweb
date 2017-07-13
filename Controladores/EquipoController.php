@@ -11,6 +11,12 @@ class EquipoController extends ControllerBase
 	private $ot = null;
 	private $eqTipo = null;
 	private $equipo = null;
+	/**
+	 * si es true cuenta las visitas
+	 *
+	 * @var boolean
+	 */
+	private $contarSw = true;
 
 	public function __construct(){
 		parent::__construct();
@@ -19,16 +25,20 @@ class EquipoController extends ControllerBase
 		$this->ot = new OrdenTrabajoModel(); 
 		$this->eqTipo = new EqTipoModel();
 		$this->equipo = new EquipoModel();
+		$this->contarSw = true;
 	}
 	public function listar()
 	{
 		$listado = $this->equipo->listar("");
 
-		FuncionesComunes::contadorPagina(3);
+		if($this->contarSw){
+			FuncionesComunes::contadorPagina(3);
+		}
 
 		$this->mostrar($listado, null, null, 'EquipoListView.twig');
 	}
 	public function editar(){
+		$this->contarSw = false;
 		$this->equipo->pkEquipo = $_POST['pkEquipo'];
 
 		$eq = $this->equipo->findOne("pkequipo", $this->equipo->pkEquipo);
@@ -42,6 +52,7 @@ class EquipoController extends ControllerBase
 		$this->mostrar($eq, $tipos, $modelos, 'EquipoView.twig');
 	}
 	public function nuevo(){
+		$this->contarSw = false;
 		$listar = null;
 
 		#Solo enviamos los tipos de equipos
@@ -54,6 +65,7 @@ class EquipoController extends ControllerBase
 
 	public function guardar()
 	{
+		$this->contarSw = false;
 		$this->equipo->pkEquipo 		= $_POST['pkEquipo'];
 		$this->equipo->fkTipoEquipo 	= $_POST['fkTipoEquipo'];
 		$this->equipo->fkModelo 		= $_POST['fkModelo'];
@@ -69,6 +81,7 @@ class EquipoController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->equipo->pkEquipo = $_POST['pkEquipo'];
 		$this->equipo->delModel();
 

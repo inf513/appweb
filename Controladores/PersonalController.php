@@ -12,10 +12,11 @@ class PersonalController extends ControllerBase
 	private $personal = null;
 	private $orden = null;
 	private $cargo = null;
+	private $contarSw = true;
 
 	public function __construct(){
 		parent::__construct();
-
+		$this->contarSw = true;
 		$this->orden = new OrdenTrabajoModel();
 		$this->cargo = new CargoModel(); 
 		$this->personal = new PersonalModel();
@@ -24,9 +25,9 @@ class PersonalController extends ControllerBase
 	{
 		try {
 			$listado = $this->personal->listar("");
-
-			FuncionesComunes::contadorPagina(5);
-		
+			if($this->contarSw){
+				FuncionesComunes::contadorPagina(5);
+			}
 			$this->mostrar($listado, null, 'PersonalListView.twig');
 		} catch (Exception $e) {
 			echo "[PersonalController.listar] " . $e->getMessage();
@@ -34,7 +35,7 @@ class PersonalController extends ControllerBase
 	}
 
 	public function editar(){
-		
+		$this->contarSw = false;
 		$this->personal->pkPersonal = $_POST['pkPersonal'];
 
 		$persona = $this->personal->findOne("pkPersonal",$this->personal->pkPersonal);
@@ -47,7 +48,7 @@ class PersonalController extends ControllerBase
 
 	public function nuevo(){
 		$listar = null;
-
+		$this->contarSw = false;
 		#ademas enviamos la lista de cargos
 		$cargos = $this->cargo->listar("");
 
@@ -56,6 +57,7 @@ class PersonalController extends ControllerBase
 
 	public function guardar()
 	{
+		$this->contarSw = false;
 		$this->personal->pkPersonal 	= $_POST['pkPersonal'];
 		$this->personal->fechaIngreso 	= $_POST['fechaIngreso'];
 		$this->personal->nombreComp 	= $_POST['nombreComp'];
@@ -76,6 +78,7 @@ class PersonalController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->personal->pkPersonal = $_POST['pkPersonal'];
 		$this->personal->delModel();
 
