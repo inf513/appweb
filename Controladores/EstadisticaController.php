@@ -19,22 +19,27 @@ class EstadisticaController extends ControllerBase
 	public function listar()
 	{
 		$listado = $this->estadistica->listar("");
+        //$this->estadisticaImg1();
         $this->estadisticaImg();
+        $dummy = rand();
+        $fileName = "img\imagefile.png?dummy=" . $dummy;
         FuncionesComunes::contadorPagina(4);
-		//$this->mostrar($listado, 'ImproductivaListView.twig');
-        $this->mostrar($listado, 'EstadisticaView.twig');
-      
+        $this->mostrar($fileName, 'EstadisticaView.twig');
 	}
 	
 
 	# metodos privados
-	private function mostrar($listado, $vista){
+	private function mostrar($fileName, $vista){
 		# aqui ingresamos todos los datos que queremos enviar
-		$data['listado'] = $listado;
+		$data['fileName'] = $fileName;
 		$this->show($vista, $data);
          
 	}
- 
+    /**
+     * metodo que no se esta usando por que tiene problemas
+     *
+     * @return void
+     */
     public function estadisticaImge(){       
         try{
             // $datay =array( 62 , 105 , 85 , 50 );
@@ -98,29 +103,15 @@ class EstadisticaController extends ControllerBase
             $e->getMessage();
         }
     }
-
-
-
-
-
-    
-
-
-
- public function estadisticaImg(){
-       
+ 
+    public function estadisticaImg(){
         try{
-
-          
-
-
         $pag= array();
         $vis= array();
         $listado = $this->estadistica->listar("");
         foreach ($listado as $estado){
             $vis[]= $estado->visitas;
             $pag[]= $estado->id;
-            
         }
         
                 
@@ -151,29 +142,71 @@ class EstadisticaController extends ControllerBase
         // Default is PNG so use ".png" as suffix
         $fileName = "img\imagefile.png";
         $graph->img->Stream($fileName);
- 
-// Send it back to browser
-       // $graph->img->Headers();
+
+        // Send it back to browser
+        // $graph->img->Headers();
         //$graph->img->Stream();
         }catch(Exception $e){
             $e->getMessage();
         }
-
-
-
-
-
-
-       
-
     }
+    public function estadisticaImg1(){
+        try{
+            $pag= array();
+            $vis= array();
+            $listado = $this->estadistica->listar("");
+            foreach ($listado as $estado){
+                $vis[]= $estado->visitas;
+                $pag[]= $estado->paginas;
+            }
+
+        // Create the graph. These two calls are always required
+        $graph = new Graph(600,500,'auto');
+        $graph->img->SetMargin(60,20,35,75);
+        $graph->SetScale("textlin");
+        $graph->SetMarginColor("lightblue:1.1");
+        $graph->SetShadow();
+
+        //configuracion del titulo        
+        $graph->title->set("CONTADOR DE PAGINAS");
+        $graph->title->SetMargin(8);
+        $graph->title->SetFont(FF_VERDANA,FS_BOLD,12);
+        $graph->title->SetColor("darkred");        
+
+        // configuracion de fuente para axis
+        $graph->xaxis->SetFont(FF_VERDANA,FS_NORMAL,10);
+        $graph->yaxis->SetFont(FF_VERDANA,FS_NORMAL,10);
+
+        // Show 0 label on Y-axis (default is not to show)
+        $graph->yscale->ticks->SupressZeroLabel(false);
+        $graph->yaxis->title->set("Visitas");
+
+        // Setup X-axis labels
+        $graph->xaxis->SetTickLabels($pag);        
+        $graph->xaxis->SetLabelAngle(80);
+        $graph->xaxis->title->set("pag");
+        
+        $barplot1= new BarPlot($vis);
+        //$barplot1->SetColor("white");
+        $barplot1->SetFillGradient("#4B0082","#e3cef6",GRAD_HOR);
+        $barplot1->SetWidth(30);
 
 
-    
-
-    
+        $graph->Add($barplot1);
 
 
+        $gdImgHandler = $graph->Stroke(_IMG_HANDLER);
+        
+        // Stroke image to a file and browser
+ 
+        // Default is PNG so use ".png" as suffix
+        $fileName = "img\imagefile.png";
+        $graph->img->Stream($fileName);
+
+        }catch(Exception $e){
+            $e->getMessage();
+        }
+    }    
 }
 
 ?>

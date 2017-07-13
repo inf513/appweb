@@ -10,9 +10,11 @@ class UsuarioController extends ControllerBase
 {
 	private $usuario = null;
     private $grupo = null;
+	private $contarSw = true;
 
 	public function __construct(){
 		parent::__construct();
+		$this->contarSw = true;
 
 		$this->grupo = new GrupoModel();
         $this->usuario = new UsuarioModel();
@@ -21,8 +23,9 @@ class UsuarioController extends ControllerBase
 	{
 		try {
 			$listado = $this->usuario->listar("");
-			FuncionesComunes::contadorPagina(9);
-
+			if($this->contarSw){
+				FuncionesComunes::contadorPagina(9);
+			}
 			$this->mostrar($listado, null, 'UsuarioListView.twig');
 		} catch (Exception $e) {
 			echo "[UsuarioController.listar] " . $e->getMessage();
@@ -30,7 +33,7 @@ class UsuarioController extends ControllerBase
 	}
 
 	public function editar(){
-		
+		$this->contarSw = false;
 		$this->usuario->pkUsuario = $_POST['pkUsuario'];
 
 		$usr = $this->usuario->findOne("pkUsuario",$this->usuario->pkUsuario);
@@ -42,7 +45,7 @@ class UsuarioController extends ControllerBase
 
 	public function nuevo(){
 		$listar = null;
-
+		$this->contarSw = false;
 		#ademas enviamos la lista de grupos
 		$grupos = $this->grupo->listar("");
 
@@ -51,6 +54,7 @@ class UsuarioController extends ControllerBase
 
 	public function guardar()
 	{
+		$this->contarSw = false;
 		$this->usuario->pkUsuario 	    = $_POST['pkUsuario'];
 		$this->usuario->nickName 	    = $_POST['nickName'];
 		$this->usuario->nombreCompleto 	= $_POST['nombreCompleto'];
@@ -65,6 +69,7 @@ class UsuarioController extends ControllerBase
 	}
 	public function eliminar()
 	{
+		$this->contarSw = false;
 		$this->usuario->pkUsuario = $_POST['pkUsuario'];
 		$this->usuario->delModel();
 

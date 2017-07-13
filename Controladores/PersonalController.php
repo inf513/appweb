@@ -28,7 +28,8 @@ class PersonalController extends ControllerBase
 			if($this->contarSw){
 				FuncionesComunes::contadorPagina(5);
 			}
-			$this->mostrar($listado, null, 'PersonalListView.twig');
+										    
+			$this->mostrar($listado, null, 'PersonalListview.twig');
 		} catch (Exception $e) {
 			echo "[PersonalController.listar] " . $e->getMessage();
 		}
